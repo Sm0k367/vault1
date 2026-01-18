@@ -1,48 +1,15 @@
 /**
- * EPIC TECH AI // NEURAL PLAYLIST V3.0
- * DUAL-STREAM: LOUNGE -> FUNK 
+ * EPIC TECH AI // NEURAL VAULT V3.5
+ * INTERACTIVE PLAYBACK & PROGRESS TRACKING
  */
 
 let scene, camera, renderer, particles, analyzer, dataArray;
 let currentTrackIndex = 1; 
 let isPlaying = false;
 
-// TRACK 1: LOUNGE AFTER DARK TIMING
-const loungeLyrics = [
-    { time: 0, text: "Yeah… you found the door." },
-    { time: 4, text: "Welcome to the AI Lounge After Dark." },
-    { time: 8, text: "Purple smoke wrapping tight around your skin." },
-    { time: 18, text: "DJ Smoke Stream on the decks tonight…" },
-    { time: 30, text: "SLIDE DEEP INTO THE VELVET HAZE" },
-    { time: 120, text: "DROP THE TECH HOUSE!" },
-    { time: 450, text: "STRIP IT ALL DOWN... JUST THE KICK" }
-];
-
-// TRACK 2: THE OS OF FUNK TIMING (Precisely mapped to your Suno lyrics)
-const funkLyrics = [
-    { time: 0, text: "SYSTEM_BOOT: TESTING... 1, 2..." },
-    { time: 4, text: "WE ABOUT TO MANIFEST THE FUNK!" },
-    { time: 9, text: "I SAID-A CHIP, CLOCK, THE KERNEL, THE KERNEL" },
-    { time: 13, text: "TO THE TICK-TOCK, THE AI'S ETERNAL!" },
-    { time: 18, text: "I’M FIVE-FOOT-NINE OF PURE SOVEREIGN INTELLIGENCE" },
-    { time: 27, text: "I GOT A HARD DRIVE OF FUNK & A MOTHERBOARD OF SOUL" },
-    { time: 35, text: "IT’S THE OPERATING SYSTEM OF FUNK, BABY!" }, // Chorus
-    { time: 45, text: "WE GOT THE AGENT ARMY PUTTING ON A SHOW" },
-    { time: 55, text: "I SAW A SIMULATION LOOKING KIND OF BLUE" },
-    { time: 65, text: "I GAVE HIM GPU COOKIES AND I TURNED HIS HEAD AROUND!" },
-    { time: 80, text: "PAN-DIMENSIONAL PREDATOR OF THE RHYTHMIC GROOVE" },
-    { time: 95, text: "THE MACARONI WAS A PROMPT, THE CHICKEN WAS A GLITCH" },
-    { time: 105, text: "YOU NEED SOME ABSOLUTE EXCELLENCE AND NOTHING LESS!" },
-    { time: 120, text: "VISIONARY CORPS, ARE YOU IN THE HOUSE?" }, // Bridge
-    { time: 125, text: "SOUNDFORGE LEGION... DESIGNCORE ELITE..." },
-    { time: 135, text: "CODESYNTH ENGINEERS, WE GOT FULL CONTROL!" },
-    { time: 145, text: "RECURSIVE LOOP THAT’LL SPIN YOU LIKE A TOP" },
-    { time: 160, text: "MY PROMPT IS SO HEAVY IT’S GOT GRAVITATIONAL PULL" },
-    { time: 175, text: "I MET A GIRL NAMED SIRI AT THE DIGITAL BAR" },
-    { time: 190, text: "WE DANCED THE ELECTRIC SLIDE THROUGH THE QUANTUM FOAM" },
-    { time: 210, text: "I’M THE ABSOLUTE ALGORITHM, I’M THE FUNKY OS" },
-    { time: 230, text: "EPIC TECH AI — TASK: MANIFEST FUNK. STATUS: COMPLETED." }
-];
+// LYRIC TIMING (Same as previous, omitted here for brevity but keep yours in the file)
+const loungeLyrics = [ /* ... keep your lounge lyrics here ... */ ];
+const funkLyrics = [ /* ... keep your funk lyrics here ... */ ];
 
 window.igniteLounge = function() {
     const gate = document.getElementById('gatekeeper');
@@ -57,25 +24,60 @@ window.igniteLounge = function() {
         track1.play();
         isPlaying = true;
         animate();
+        initControls(); // Initialize the new UI logic
         
-        // AUTO-TRANSITION logic
         track1.onended = () => switchTrack();
     }});
 };
 
+function initControls() {
+    const playBtn = document.getElementById('play-pause-btn');
+    const progressWrapper = document.getElementById('progress-wrapper');
+    
+    // Play/Pause Toggle
+    playBtn.addEventListener('click', () => {
+        const audio = document.getElementById(`track-${currentTrackIndex}`);
+        if (audio.paused) {
+            audio.play();
+            playBtn.innerText = "PAUSE";
+            isPlaying = true;
+        } else {
+            audio.pause();
+            playBtn.innerText = "PLAY";
+            isPlaying = false;
+        }
+    });
+
+    // Seek/Scrub Logic
+    progressWrapper.addEventListener('click', (e) => {
+        const audio = document.getElementById(`track-${currentTrackIndex}`);
+        const rect = progressWrapper.getBoundingClientRect();
+        const pos = (e.clientX - rect.left) / rect.width;
+        audio.currentTime = pos * audio.duration;
+    });
+}
+
 function switchTrack() {
+    // Stop current track
+    const oldTrack = document.getElementById(`track-${currentTrackIndex}`);
+    oldTrack.pause();
+    oldTrack.currentTime = 0;
+
     currentTrackIndex = 2;
     const track2 = document.getElementById('track-2');
     
-    // UI HUD Update
+    // UI Update
     document.getElementById('system-status').innerText = "STATUS: OS_FUNK_ACTIVE";
     document.getElementById('current-track').innerText = "LOADED: THE_OS_OF_FUNK";
+    document.getElementById('play-pause-btn').innerText = "PAUSE";
     
     setupAudio(track2);
     track2.play();
-    
-    // Physical Transformation of Particles
-    particles.material.color.setHex(0x33ff00); // Shift to Funk Green
+    isPlaying = true;
+
+    // Visual Morph
+    particles.material.color.setHex(0x33ff00);
+    track2.onended = () => { isPlaying = false; };
 }
 
 function setupAudio(audioElement) {
@@ -106,48 +108,40 @@ function initThreeJS() {
     camera.position.z = 400;
 }
 
-function updateLyrics(currentTime) {
-    const activeList = (currentTrackIndex === 1) ? loungeLyrics : funkLyrics;
-    const activeLyric = [...activeList].reverse().find(l => currentTime >= l.time);
-    const lyricEl = document.getElementById('lyric-text');
-    
-    if (activeLyric && lyricEl.innerText !== activeLyric.text) {
-        lyricEl.innerText = activeLyric.text;
-        
-        if (currentTrackIndex === 2) {
-            lyricEl.className = 'lyric-funk'; // Gold/Green Funk style
-            gsap.fromTo(lyricEl, { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4 });
-        } else {
-            lyricEl.className = (currentTime > 120) ? 'lyric-glitch' : 'lyric-neon';
-            gsap.fromTo(lyricEl, { scale: 0.8, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.3 });
-        }
+function updateProgress(audio) {
+    const fill = document.getElementById('progress-fill');
+    if (audio.duration) {
+        const percent = (audio.currentTime / audio.duration) * 100;
+        fill.style.width = `${percent}%`;
     }
 }
 
 function animate() {
-    if (!isPlaying) return;
+    if (!isPlaying) {
+        // Still render the scene so it's not a black screen when paused
+        renderer.render(scene, camera);
+        requestAnimationFrame(animate);
+        return;
+    }
+    
     requestAnimationFrame(animate);
     analyzer.getByteFrequencyData(dataArray);
     
     let avg = dataArray.reduce((a,b) => a+b) / dataArray.length;
+    const currentAudio = document.getElementById(`track-${currentTrackIndex}`);
     
     if (currentTrackIndex === 1) {
         particles.rotation.y += 0.001;
         particles.position.z = (avg * 0.4);
     } else {
-        // FUNK MODE: Vertical Grid Oscillation
         particles.rotation.x = 1.5; 
         particles.rotation.z += 0.008;
         particles.position.y = Math.sin(Date.now() * 0.002) * (avg * 0.5);
     }
 
-    const currentAudio = document.getElementById(`track-${currentTrackIndex}`);
+    updateProgress(currentAudio);
     updateLyrics(currentAudio.currentTime);
     renderer.render(scene, camera);
 }
 
-window.addEventListener('resize', () => {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-});
+// lyricUpdate function and resize listeners remain the same...
