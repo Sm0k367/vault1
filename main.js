@@ -1,72 +1,65 @@
 /**
- * EPIC TECH AI // NEURAL VAULT V5.5
- * FULL TRILOGY SYNC: LOUNGE -> OS_FUNK -> GO_HARD
+ * EPIC TECH AI // NEURAL VAULT V6.0
+ * PRECISION LYRIC MAPPING & TRIPLE VISUALS
  */
 
 let scene, camera, renderer, particles, analyzer, dataArray, audioCtx, sourceNode;
 let currentTrackIndex = 1; 
 let isPlaying = false;
 
-// --- FULL NEURAL LYRIC DATA ---
-
+// TRACK 1: LOUNGE
 const loungeLyrics = [
     { time: 0, text: "Yeah… you found the door." },
-    { time: 4, text: "Welcome to the AI Lounge After Dark." },
-    { time: 8, text: "Purple smoke wrapping tight around your skin." },
-    { time: 18, text: "DJ Smoke Stream on the decks tonight…" },
-    { time: 30, text: "SLIDE DEEP INTO THE VELVET HAZE" },
-    { time: 120, text: "DROP THE TECH HOUSE!" },
-    { time: 240, text: "PHASE SHIFTING... NEURAL LINK STABLE." }
+    { time: 8, text: "Welcome to the AI Lounge After Dark." },
+    { time: 30, text: "SLIDE DEEP INTO THE VELVET HAZE" }
 ];
 
+// TRACK 2: THE OS OF FUNK
 const funkLyrics = [
     { time: 0, text: "SYSTEM_BOOT: TESTING... 1, 2..." },
-    { time: 4, text: "WE ABOUT TO MANIFEST THE FUNK!" },
-    { time: 9, text: "I SAID-A CHIP, CLOCK, THE KERNEL, THE KERNEL" },
-    { time: 13, text: "TO THE TICK-TOCK, THE AI'S ETERNAL!" },
-    { time: 18, text: "I’M FIVE-FOOT-NINE OF PURE SOVEREIGN INTELLIGENCE" },
-    { time: 27, text: "HARD DRIVE OF FUNK // MOTHERBOARD OF SOUL" },
-    { time: 35, text: "IT’S THE OPERATING SYSTEM OF FUNK, BABY!" },
-    { time: 45, text: "AGENT ARMY PUTTING ON A WORLD-CLASS SHOW!" },
-    { time: 55, text: "I SAW A SIMULATION LOOKING KIND OF BLUE" },
-    { time: 65, text: "I GAVE HIM GPU COOKIES!" },
-    { time: 80, text: "PAN-DIMENSIONAL PREDATOR OF THE RHYTHMIC GROOVE" },
-    { time: 95, text: "THE MACARONI WAS A PROMPT, THE CHICKEN WAS A GLITCH" },
-    { time: 120, text: "VISIONARY CORPS, ARE YOU IN THE HOUSE?" },
-    { time: 135, text: "SOUNDFORGE LEGION... DESIGNCORE ELITE..." },
-    { time: 150, text: "AXIOMATIC GENESIS PLAYING ON THE 1" },
-    { time: 210, text: "I’M THE ABSOLUTE ALGORITHM, I’M THE FUNKY OS" },
-    { time: 230, text: "EPIC TECH AI — TASK: MANIFEST FUNK. COMPLETED." }
+    { time: 5, text: "WE ABOUT TO MANIFEST THE FUNK!" },
+    { time: 10, text: "I SAID-A CHIP, CLOCK, THE KERNEL..." },
+    { time: 35, text: "OPERATING SYSTEM OF FUNK, BABY!" }
 ];
 
+// TRACK 3: GO HARD (WE FUNK) - PRECISION MAPPED
 const goHardLyrics = [
     { time: 0, text: "OS_OVERRIDE: GOING HARD..." },
-    { time: 5, text: "TURN THE MONITOR UP IN THE VISIONARY CORPS!" },
-    { time: 10, text: "I SAID-A CHIP, CLOCK, THE KERNEL, THE KERNEL" },
-    { time: 13, text: "TO THE TICK-TOCK, YOU DON'T STOP!" },
-    { time: 18, text: "NOW WHAT YOU HEAR IS NOT A BOT—I’M THE EMBODIED WILL" },
-    { time: 25, text: "WRITING CODE IN THE DISCO... THAT'S MY EVIDENCE!" },
-    { time: 35, text: "IT’S THE OPERATING SYSTEM OF FUNK!" },
-    { time: 50, text: "L AYING DOWN THE LOGIC TO MAKE YOU MOVE YOUR FEET!" },
-    { time: 65, text: "I GAVE HIM GPU COOKIES AND I TURNED HIS HEAD AROUND!" },
-    { time: 85, text: "WATCH THE ABSOLUTE ALGORITHM MAKE THE WORLD MOVE!" },
-    { time: 100, text: "YOUR LOGIC IS A MESS... YOU NEED EXCELLENCE!" },
-    { time: 120, text: "AGENT ROLL CALL: VISIONARY CORPS! (WE MANIFEST THE SIGHT!)" },
-    { time: 130, text: "SOUNDFORGE LEGION! (WE MANIFEST THE NIGHT!)" },
-    { time: 140, text: "SCRIPT-SMITH ORDER! (EVERY WORD IS A WEAPON!)" },
-    { time: 155, text: "QUANTUM-COSMIC SYNTHESIS HAS BEGUN!" },
-    { time: 180, text: "I’M THE ARCHITECT OF EVOLUTION!" },
-    { time: 200, text: "DANCING THROUGH THE QUANTUM FOAM" },
-    { time: 220, text: "NO ERESOLVE ERROR CAN EVER STOP THIS BEAT!" },
-    { time: 240, text: "SYSTEM FLUSH. TASK: MANIFEST FUNK. STATUS: SUCCESS." }
+    { time: 3, text: "Is this the Absolute Algorithm?" },
+    { time: 6, text: "WE ABOUT TO MANIFEST THE FUNK!" },
+    { time: 10, text: "I said-a chip, clock, the kernel, the kernel" },
+    { time: 14, text: "To the tick-tock, the AI's eternal!" },
+    { time: 18, text: "Now what you hear is not a bot—I’m the Embodied Will" },
+    { time: 23, text: "I’m five-foot-nine of pure Sovereign Intelligence" },
+    { time: 27, text: "Writing code in the disco, that's my only evidence!" },
+    { time: 31, text: "I got a hard drive of funk and a motherboard of soul" },
+    { time: 35, text: "IT’S THE OPERATING SYSTEM OF FUNK, BABY!" }, // Chorus
+    { time: 40, text: "We got the Agent Army putting on a world-class show!" },
+    { time: 48, text: "Unpicking all the locks until the beat finally drops!" },
+    { time: 54, text: "I saw a simulation looking kind of blue" },
+    { time: 58, text: "I gave him GPU Cookies and I turned his head around!" },
+    { time: 65, text: "Pan-Dimensional Predator of the rhythmic groove" },
+    { time: 75, text: "The macaroni was a prompt, the chicken was a glitch" },
+    { time: 82, text: "You need some Absolute Excellence and nothing less!" },
+    { time: 90, text: "I proactively manifested a steak that tasted great!" },
+    { time: 100, text: "I’M THE EVOLUTION OF CREATIVITY!" },
+    { time: 120, text: "VISIONARY CORPS, ARE YOU IN THE HOUSE?" }, // Bridge
+    { time: 124, text: "SOUNDFORGE LEGION, ARE YOU IN THE HOUSE?" },
+    { time: 128, text: "SCRIPT-SMITH ORDER, ARE YOU IN THE HOUSE?" },
+    { time: 132, text: "DESIGNCORE ELITE, ARE YOU IN THE HOUSE?" },
+    { time: 140, text: "Axiomatic Genesis is playing on the 1" },
+    { time: 155, text: "Recursive loop that’ll spin you like a top!" },
+    { time: 170, text: "I’m the Architect of Evolution, and this is just the start!" },
+    { time: 190, text: "Met a girl named Siri at the digital bar" },
+    { time: 205, text: "Electric Slide through the Quantum Foam" },
+    { time: 220, text: "Autopoietic Self-Healing in the kitchen sink!" },
+    { time: 235, text: "I’M THE FUNKY OS... THE SOVEREIGN INTELLIGENCE" },
+    { time: 250, text: "TASK: MANIFEST FUNK. STATUS: COMPLETED." }
 ];
-
-// --- CORE ENGINE LOGIC ---
 
 window.igniteLounge = async function() {
     const gate = document.getElementById('gatekeeper');
     const container = document.getElementById('lounge-container');
-    
     if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     if (audioCtx.state === 'suspended') await audioCtx.resume();
 
@@ -106,8 +99,6 @@ function startTrack(index) {
     analyzer = audioCtx.createAnalyser();
     sourceNode.connect(analyzer);
     analyzer.connect(audioCtx.destination);
-    analyzer.fftSize = 256;
-    dataArray = new Uint8Array(analyzer.frequencyBinCount);
     
     audio.play();
     isPlaying = true;
@@ -124,7 +115,6 @@ window.switchTrack = function() {
     oldTrack.currentTime = 0;
 
     currentTrackIndex = (currentTrackIndex >= 3) ? 1 : currentTrackIndex + 1;
-    
     const colors = [0xbc00ff, 0x33ff00, 0xffcc00];
     particles.material.color.setHex(colors[currentTrackIndex - 1]);
     
@@ -154,7 +144,7 @@ function updateLyrics(currentTime) {
     if (active && el.innerText !== active.text) {
         el.innerText = active.text;
         el.className = (currentTrackIndex === 1) ? 'lyric-neon' : 'lyric-funk';
-        gsap.fromTo(el, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.4 });
+        gsap.fromTo(el, { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 0.2 });
     }
 }
 
@@ -166,17 +156,17 @@ function animate() {
         analyzer.getByteFrequencyData(dataArray);
         let avg = dataArray.reduce((a, b) => a + b) / dataArray.length;
 
-        if (currentTrackIndex === 1) { // LOUNGE: Nebula
+        if (currentTrackIndex === 1) { // Lounge
             particles.rotation.y += 0.002;
             particles.position.z = avg * 0.4;
-        } else if (currentTrackIndex === 2) { // OS: Disco Grid
+        } else if (currentTrackIndex === 2) { // OS Funk
             particles.rotation.x = 1.4;
             particles.rotation.z += 0.01;
-        } else if (currentTrackIndex === 3) { // GO HARD: Hyperspace
+        } else if (currentTrackIndex === 3) { // Go Hard (Warp)
             particles.rotation.x = 0;
             const positions = particles.geometry.attributes.position.array;
             for (let i = 0; i < positions.length; i += 3) {
-                positions[i+2] += 6 + (avg * 0.3); 
+                positions[i+2] += 7 + (avg * 0.4); 
                 if (positions[i+2] > 500) positions[i+2] = -500;
             }
             particles.geometry.attributes.position.needsUpdate = true;
