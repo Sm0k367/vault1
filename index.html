@@ -11,9 +11,12 @@
 <body>
 
     <div id="gatekeeper" onclick="igniteLounge()">
-        <div class="glow-circle"></div>
-        <h1 class="entry-text">ENTER THE AFTER DARK</h1>
-        <p class="entry-sub">[ DJ SMOKE STREAM IS WAITING ]</p>
+        <div class="glow-ring"></div>
+        <div class="entry-content">
+            <h1 class="glitch-text" data-text="AI LOUNGE">AI LOUNGE</h1>
+            <h2 class="sub-text">AFTER DARK</h2>
+            <p class="instruction">[ CLICK TO SURRENDER ]</p>
+        </div>
     </div>
 
     <div id="lounge-container" style="display: none;">
@@ -24,17 +27,20 @@
         </div>
 
         <audio id="track-source">
-            <source src="YOUR_SONG_FILE.mp3" type="audio/mpeg">
+            <source src="Lounge%20(1).mp3" type="audio/mpeg">
         </audio>
 
-        <div class="now-playing">
-            <span class="neon-label">ON THE DECKS:</span>
-            <span class="track-name">AI LOUNGE AFTER DARK</span>
+        <div class="hud">
+            <div class="track-info">
+                <span class="label">STREAM:</span>
+                <span class="value">DJ SMOKE STREAM // 128 BPM</span>
+            </div>
         </div>
     </div>
 
     <div class="vignette"></div>
-    <div class="grain"></div>
+    <div class="scanlines"></div>
+    <div class="noise-overlay"></div>
 
     <script src="main.js"></script>
 </body>
