@@ -23,7 +23,7 @@ body {
     position: fixed;
     inset: 0;
     z-index: 9999;
-    background: #000;
+    background: radial-gradient(circle at center, var(--purple-core) 0%, #000 100%);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -40,6 +40,8 @@ body {
     animation: pulse-ring 1.5s infinite alternate;
 }
 
+.glitch-text { font-size: 2.5rem; letter-spacing: 10px; color: #fff; text-shadow: 2px 2px var(--neon-pink); }
+
 /* --- THE LYRIC STAGE --- */
 #lyric-stage {
     position: absolute;
@@ -53,43 +55,46 @@ body {
 }
 
 #lyric-text {
-    font-size: clamp(1.5rem, 7vw, 5rem);
+    font-size: clamp(1.8rem, 8vw, 5.5rem);
     text-transform: uppercase;
     transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-/* Variant: OS OF FUNK (Gold/Green Retro Look) */
-.lyric-funk {
-    font-family: 'Bungee', cursive;
-    color: var(--funk-gold);
-    text-shadow: 4px 4px 0px #800000, 0 0 20px var(--funk-gold);
-}
-
+/* LOUNGE STYLE: NEON GLOW */
 .lyric-neon {
     color: #fff;
     text-shadow: 0 0 15px var(--neon-pink), 0 0 30px var(--neon-pink);
 }
 
-/* --- HUD / OS CONSOLE --- */
-.hud {
-    position: absolute;
-    top: 40px;
-    left: 40px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.8rem;
-    color: var(--neon-blue);
-    z-index: 200;
-    border-left: 3px solid var(--neon-blue);
-    padding-left: 15px;
+/* FUNK STYLE: GOLD RETRO BLOCK */
+.lyric-funk {
+    font-family: 'Bungee', cursive;
+    color: var(--funk-gold);
+    text-shadow: 6px 6px 0px #800000, 0 0 25px var(--funk-gold);
+    letter-spacing: -2px;
 }
 
-#system-status { color: var(--funk-green); text-shadow: 0 0 5px var(--funk-green); }
+/* --- THE HUD --- */
+.hud {
+    position: absolute;
+    top: 30px;
+    left: 30px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--neon-blue);
+    z-index: 200;
+    border-left: 2px solid var(--neon-blue);
+    padding-left: 15px;
+    background: rgba(0, 0, 0, 0.4);
+}
 
-/* --- OVERLAYS --- */
+#system-status { color: var(--funk-green); margin-bottom: 5px; }
+
+/* --- ATMOSPHERICS --- */
 .vignette {
     position: fixed;
     inset: 0;
-    background: radial-gradient(circle, transparent 40%, rgba(0,0,0,0.9) 100%);
+    background: radial-gradient(circle, transparent 40%, rgba(0,0,0,0.95) 100%);
     z-index: 150;
     pointer-events: none;
 }
@@ -101,12 +106,12 @@ body {
     background-size: 100% 4px;
     z-index: 151;
     pointer-events: none;
-    opacity: 0.3;
+    opacity: 0.2;
 }
 
 #visualizer-canvas { position: fixed; inset: 0; z-index: 50; }
 
 @keyframes pulse-ring {
-    from { transform: scale(0.9); opacity: 0.4; box-shadow: 0 0 20px var(--neon-blue); }
-    to { transform: scale(1.1); opacity: 1; box-shadow: 0 0 60px var(--neon-blue); }
+    from { transform: scale(0.95); opacity: 0.5; }
+    to { transform: scale(1.05); opacity: 1; }
 }
