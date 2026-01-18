@@ -25,6 +25,18 @@
             <h2 id="lyric-text"></h2>
         </div>
 
+        <div id="playback-overlay">
+            <div class="control-row">
+                <button id="play-pause-btn" class="ctrl-btn">PAUSE</button>
+                <div id="progress-wrapper">
+                    <div id="progress-bar">
+                        <div id="progress-fill"></div>
+                    </div>
+                </div>
+                <button id="skip-btn" class="ctrl-btn" onclick="switchTrack()">SKIP >></button>
+            </div>
+        </div>
+
         <div id="audio-engine">
             <audio id="track-1">
                 <source src="Lounge%20(1).mp3" type="audio/mpeg">
@@ -42,7 +54,6 @@
 
     <div class="vignette"></div>
     <div class="scanlines"></div>
-    <div class="noise-overlay"></div>
 
     <script src="main.js"></script>
 </body>
