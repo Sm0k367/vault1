@@ -2,16 +2,17 @@
     --purple-core: #1a0033;
     --neon-pink: #ff00ff;
     --neon-blue: #00f2ff;
-    --smoke-white: #f0f0f0;
+    --funk-gold: #ffcc00;
+    --funk-green: #33ff00;
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=JetBrains+Mono:wght@400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=JetBrains+Mono:wght@400&family=Bungee&display=swap');
 
 * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
 
 body {
-    background-color: #050505;
-    color: var(--smoke-white);
+    background-color: #000;
+    color: #fff;
     font-family: 'Syncopate', sans-serif;
     overflow: hidden;
     height: 100vh;
@@ -22,7 +23,7 @@ body {
     position: fixed;
     inset: 0;
     z-index: 9999;
-    background: radial-gradient(circle at center, var(--purple-core) 0%, #000 100%);
+    background: #000;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -31,18 +32,13 @@ body {
 
 .glow-ring {
     position: absolute;
-    width: 300px;
-    height: 300px;
-    border: 1px solid var(--neon-pink);
+    width: 250px;
+    height: 250px;
+    border: 2px solid var(--neon-blue);
     border-radius: 50%;
-    filter: blur(2px);
-    box-shadow: 0 0 40px var(--neon-pink), inset 0 0 40px var(--neon-pink);
-    animation: pulse-ring 2s infinite alternate ease-in-out;
+    box-shadow: 0 0 50px var(--neon-blue);
+    animation: pulse-ring 1.5s infinite alternate;
 }
-
-.entry-content { text-align: center; z-index: 10; }
-.glitch-text { font-size: 3rem; letter-spacing: 15px; color: #fff; text-shadow: 2px 2px var(--neon-blue); }
-.sub-text { font-family: 'JetBrains Mono'; font-size: 1rem; color: var(--neon-pink); letter-spacing: 5px; margin-top: 10px; }
 
 /* --- THE LYRIC STAGE --- */
 #lyric-stage {
@@ -53,33 +49,47 @@ body {
     align-items: center;
     z-index: 100;
     pointer-events: none;
+    text-align: center;
 }
 
 #lyric-text {
-    font-size: clamp(1.5rem, 6vw, 4.5rem);
-    text-align: center;
-    padding: 0 10%;
+    font-size: clamp(1.5rem, 7vw, 5rem);
     text-transform: uppercase;
-    transition: all 0.2s ease;
+    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-/* Lyric Variants */
+/* Variant: OS OF FUNK (Gold/Green Retro Look) */
+.lyric-funk {
+    font-family: 'Bungee', cursive;
+    color: var(--funk-gold);
+    text-shadow: 4px 4px 0px #800000, 0 0 20px var(--funk-gold);
+}
+
 .lyric-neon {
     color: #fff;
-    text-shadow: 0 0 10px #fff, 0 0 20px var(--neon-pink), 0 0 40px var(--neon-pink);
+    text-shadow: 0 0 15px var(--neon-pink), 0 0 30px var(--neon-pink);
 }
 
-.lyric-glitch {
+/* --- HUD / OS CONSOLE --- */
+.hud {
+    position: absolute;
+    top: 40px;
+    left: 40px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
     color: var(--neon-blue);
-    text-shadow: 3px 0 var(--neon-pink), -3px 0 #fff;
-    animation: shake 0.1s infinite;
+    z-index: 200;
+    border-left: 3px solid var(--neon-blue);
+    padding-left: 15px;
 }
+
+#system-status { color: var(--funk-green); text-shadow: 0 0 5px var(--funk-green); }
 
 /* --- OVERLAYS --- */
 .vignette {
     position: fixed;
     inset: 0;
-    background: radial-gradient(circle, transparent 30%, rgba(0,0,0,0.8) 100%);
+    background: radial-gradient(circle, transparent 40%, rgba(0,0,0,0.9) 100%);
     z-index: 150;
     pointer-events: none;
 }
@@ -87,36 +97,16 @@ body {
 .scanlines {
     position: fixed;
     inset: 0;
-    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%);
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.2) 50%);
     background-size: 100% 4px;
     z-index: 151;
     pointer-events: none;
-    opacity: 0.15;
-}
-
-/* --- HUD --- */
-.hud {
-    position: absolute;
-    bottom: 40px;
-    left: 40px;
-    font-family: 'JetBrains Mono';
-    font-size: 0.7rem;
-    color: var(--neon-blue);
-    z-index: 200;
-}
-
-/* --- ANIMATIONS --- */
-@keyframes pulse-ring {
-    from { transform: scale(0.9); opacity: 0.4; }
-    to { transform: scale(1.1); opacity: 0.8; }
-}
-
-@keyframes shake {
-    0% { transform: translate(0); }
-    25% { transform: translate(2px, -2px); }
-    50% { transform: translate(-2px, 2px); }
-    75% { transform: translate(2px, 2px); }
-    100% { transform: translate(0); }
+    opacity: 0.3;
 }
 
 #visualizer-canvas { position: fixed; inset: 0; z-index: 50; }
+
+@keyframes pulse-ring {
+    from { transform: scale(0.9); opacity: 0.4; box-shadow: 0 0 20px var(--neon-blue); }
+    to { transform: scale(1.1); opacity: 1; box-shadow: 0 0 60px var(--neon-blue); }
+}
