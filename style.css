@@ -1,18 +1,130 @@
-/* --- PLAYBACK CONTROLS --- */
+/**
+ * EPIC TECH AI // NEURAL VAULT V4.0
+ * MASTER STYLESHEET
+ */
+
+:root {
+    --purple-core: #1a0033;
+    --neon-pink: #ff00ff;
+    --neon-blue: #00f2ff;
+    --funk-gold: #ffcc00;
+    --funk-green: #33ff00;
+    --glass: rgba(0, 0, 0, 0.7);
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=JetBrains+Mono:wght@400&family=Bungee&display=swap');
+
+* { 
+    margin: 0; 
+    padding: 0; 
+    box-sizing: border-box; 
+    user-select: none;
+}
+
+body {
+    background-color: #000;
+    color: #fff;
+    font-family: 'Syncopate', sans-serif;
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+}
+
+/* --- THE GATEKEEPER (ENTRY) --- */
+#gatekeeper {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: radial-gradient(circle at center, var(--purple-core) 0%, #000 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.glow-ring {
+    position: absolute;
+    width: 250px;
+    height: 250px;
+    border: 2px solid var(--neon-blue);
+    border-radius: 50%;
+    box-shadow: 0 0 50px var(--neon-blue);
+    animation: pulse-ring 1.5s infinite alternate;
+}
+
+.entry-content { text-align: center; z-index: 10; }
+.glitch-text { 
+    font-size: 2.5rem; 
+    letter-spacing: 10px; 
+    color: #fff; 
+    text-shadow: 2px 2px var(--neon-pink); 
+}
+.instruction {
+    font-family: 'JetBrains Mono';
+    font-size: 0.8rem;
+    color: var(--neon-blue);
+    margin-top: 20px;
+    letter-spacing: 5px;
+}
+
+/* --- MAIN CONTAINER --- */
+#lounge-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+#visualizer-canvas {
+    position: fixed;
+    inset: 0;
+    z-index: 10;
+}
+
+/* --- LYRICS --- */
+#lyric-stage {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    pointer-events: none;
+}
+
+#lyric-text {
+    font-size: clamp(1.5rem, 6vw, 5rem);
+    text-align: center;
+    padding: 0 10%;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+}
+
+.lyric-neon {
+    color: #fff;
+    text-shadow: 0 0 15px var(--neon-pink), 0 0 30px var(--neon-pink);
+}
+
+.lyric-funk {
+    font-family: 'Bungee', cursive;
+    color: var(--funk-gold);
+    text-shadow: 5px 5px 0px #800000, 0 0 25px var(--funk-gold);
+}
+
+/* --- CONTROL DECK (GLASS-MORPHISM) --- */
 #playback-overlay {
     position: absolute;
     bottom: 40px;
     left: 50%;
     transform: translateX(-50%);
-    width: 80%;
-    max-width: 900px;
+    width: 90%;
+    max-width: 800px;
     z-index: 500;
-    background: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(0, 242, 255, 0.2);
-    padding: 15px 25px;
-    border-radius: 50px;
-    transition: opacity 0.5s;
+    background: var(--glass);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 100px;
 }
 
 .control-row {
@@ -25,13 +137,13 @@
     background: none;
     border: 1px solid var(--neon-blue);
     color: var(--neon-blue);
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'JetBrains Mono';
     font-size: 0.7rem;
-    padding: 8px 15px;
-    border-radius: 20px;
+    padding: 8px 16px;
+    border-radius: 30px;
     cursor: pointer;
     transition: 0.3s;
-    letter-spacing: 2px;
+    white-space: nowrap;
 }
 
 .ctrl-btn:hover {
@@ -40,20 +152,14 @@
     box-shadow: 0 0 15px var(--neon-blue);
 }
 
-/* --- THE PROGRESS BAR --- */
 #progress-wrapper {
     flex-grow: 1;
-    height: 6px;
+    height: 8px;
     background: rgba(255, 255, 255, 0.1);
-    border-radius: 3px;
+    border-radius: 4px;
     position: relative;
     cursor: pointer;
     overflow: hidden;
-}
-
-#progress-bar {
-    width: 100%;
-    height: 100%;
 }
 
 #progress-fill {
@@ -61,22 +167,44 @@
     height: 100%;
     background: linear-gradient(90deg, var(--neon-pink), var(--neon-blue));
     box-shadow: 0 0 10px var(--neon-blue);
-    transition: width 0.1s linear;
 }
 
-/* HUD ADJUSTMENT (To avoid overlap) */
+/* --- HUD --- */
 .hud {
+    position: absolute;
     top: 30px;
     left: 30px;
-    bottom: auto; /* Move HUD to top */
+    z-index: 200;
+    font-family: 'JetBrains Mono';
+    font-size: 0.7rem;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 10px;
+    border-left: 2px solid var(--neon-blue);
 }
 
-/* Ensure controls are visible when mouse moves */
-body:hover #playback-overlay {
-    opacity: 1;
+#system-status { color: var(--funk-green); margin-bottom: 5px; }
+
+/* --- ATMOSPHERICS --- */
+.vignette {
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(circle, transparent 40%, rgba(0,0,0,0.8) 100%);
+    z-index: 150;
+    pointer-events: none;
 }
 
-/* Hide cursor only when not over controls */
-#playback-overlay:hover {
-    cursor: default;
+.scanlines {
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%);
+    background-size: 100% 4px;
+    z-index: 151;
+    pointer-events: none;
+    opacity: 0.3;
+}
+
+/* --- ANIMATIONS --- */
+@keyframes pulse-ring {
+    from { transform: scale(0.95); opacity: 0.5; }
+    to { transform: scale(1.05); opacity: 1; }
 }
