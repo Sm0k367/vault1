@@ -1,17 +1,17 @@
 :root {
-    --purple-haze: #2d004d;
-    --neon-magenta: #ff00ff;
-    --neon-cyan: #00f2ff;
-    --deep-black: #050505;
+    --purple-core: #1a0033;
+    --neon-pink: #ff00ff;
+    --neon-blue: #00f2ff;
+    --smoke-white: #f0f0f0;
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=JetBrains+Mono:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=JetBrains+Mono:wght@400&display=swap');
 
 * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
 
 body {
-    background-color: var(--deep-black);
-    color: #fff;
+    background-color: #050505;
+    color: var(--smoke-white);
     font-family: 'Syncopate', sans-serif;
     overflow: hidden;
     height: 100vh;
@@ -21,31 +21,28 @@ body {
 #gatekeeper {
     position: fixed;
     inset: 0;
-    z-index: 100;
+    z-index: 9999;
+    background: radial-gradient(circle at center, var(--purple-core) 0%, #000 100%);
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
-    background: radial-gradient(circle, var(--purple-haze) 0%, var(--deep-black) 100%);
     cursor: pointer;
-    transition: opacity 1.5s ease;
 }
 
-.glow-circle {
-    width: 200px;
-    height: 200px;
-    border: 2px solid var(--neon-magenta);
+.glow-ring {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    border: 1px solid var(--neon-pink);
     border-radius: 50%;
-    filter: blur(5px);
-    box-shadow: 0 0 50px var(--neon-magenta);
-    animation: pulse 2s infinite alternate;
+    filter: blur(2px);
+    box-shadow: 0 0 40px var(--neon-pink), inset 0 0 40px var(--neon-pink);
+    animation: pulse-ring 2s infinite alternate ease-in-out;
 }
 
-.entry-text {
-    margin-top: 40px;
-    letter-spacing: 10px;
-    text-shadow: 0 0 20px var(--neon-cyan);
-}
+.entry-content { text-align: center; z-index: 10; }
+.glitch-text { font-size: 3rem; letter-spacing: 15px; color: #fff; text-shadow: 2px 2px var(--neon-blue); }
+.sub-text { font-family: 'JetBrains Mono'; font-size: 1rem; color: var(--neon-pink); letter-spacing: 5px; margin-top: 10px; }
 
 /* --- THE LYRIC STAGE --- */
 #lyric-stage {
@@ -54,66 +51,72 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 10;
+    z-index: 100;
     pointer-events: none;
-    text-align: center;
-    padding: 0 10%;
 }
 
 #lyric-text {
-    font-size: clamp(2rem, 8vw, 5rem);
+    font-size: clamp(1.5rem, 6vw, 4.5rem);
+    text-align: center;
+    padding: 0 10%;
     text-transform: uppercase;
-    line-height: 1.1;
-    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition: all 0.2s ease;
 }
 
-/* These classes will be toggled by JS to match the song energy */
+/* Lyric Variants */
 .lyric-neon {
     color: #fff;
-    text-shadow: 0 0 10px #fff, 0 0 20px var(--neon-magenta), 0 0 40px var(--neon-magenta);
+    text-shadow: 0 0 10px #fff, 0 0 20px var(--neon-pink), 0 0 40px var(--neon-pink);
 }
 
 .lyric-glitch {
-    color: var(--neon-cyan);
-    text-shadow: 2px 2px var(--neon-magenta), -2px -2px #fff;
-    animation: glitch 0.1s infinite;
+    color: var(--neon-blue);
+    text-shadow: 3px 0 var(--neon-pink), -3px 0 #fff;
+    animation: shake 0.1s infinite;
 }
 
 /* --- OVERLAYS --- */
 .vignette {
     position: fixed;
     inset: 0;
-    background: radial-gradient(circle, transparent 40%, rgba(0,0,0,0.9) 100%);
+    background: radial-gradient(circle, transparent 30%, rgba(0,0,0,0.8) 100%);
+    z-index: 150;
     pointer-events: none;
-    z-index: 20;
 }
 
-.grain {
+.scanlines {
     position: fixed;
     inset: 0;
-    background-image: url('https://upload.wikimedia.org/wikipedia/commons/7/76/1k_Resolution_White_Noise_Video_Frame.png');
-    opacity: 0.03;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%);
+    background-size: 100% 4px;
+    z-index: 151;
     pointer-events: none;
-    z-index: 21;
+    opacity: 0.15;
+}
+
+/* --- HUD --- */
+.hud {
+    position: absolute;
+    bottom: 40px;
+    left: 40px;
+    font-family: 'JetBrains Mono';
+    font-size: 0.7rem;
+    color: var(--neon-blue);
+    z-index: 200;
 }
 
 /* --- ANIMATIONS --- */
-@keyframes pulse {
-    from { transform: scale(1); opacity: 0.5; }
-    to { transform: scale(1.1); opacity: 1; }
+@keyframes pulse-ring {
+    from { transform: scale(0.9); opacity: 0.4; }
+    to { transform: scale(1.1); opacity: 0.8; }
 }
 
-@keyframes glitch {
+@keyframes shake {
     0% { transform: translate(0); }
-    20% { transform: translate(-5px, 5px); }
-    40% { transform: translate(-5px, -5px); }
-    60% { transform: translate(5px, 5px); }
-    80% { transform: translate(5px, -5px); }
+    25% { transform: translate(2px, -2px); }
+    50% { transform: translate(-2px, 2px); }
+    75% { transform: translate(2px, 2px); }
     100% { transform: translate(0); }
 }
 
-#visualizer-canvas {
-    position: fixed;
-    inset: 0;
-    z-index: 1;
-}
+#visualizer-canvas { position: fixed; inset: 0; z-index: 50; }
