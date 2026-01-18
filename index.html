@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI LOUNGE // AFTER DARK</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+</head>
+<body>
+
+    <div id="gatekeeper" onclick="igniteLounge()">
+        <div class="glow-circle"></div>
+        <h1 class="entry-text">ENTER THE AFTER DARK</h1>
+        <p class="entry-sub">[ DJ SMOKE STREAM IS WAITING ]</p>
+    </div>
+
+    <div id="lounge-container" style="display: none;">
+        <canvas id="visualizer-canvas"></canvas>
+
+        <div id="lyric-stage">
+            <h2 id="lyric-text"></h2>
+        </div>
+
+        <audio id="track-source">
+            <source src="YOUR_SONG_FILE.mp3" type="audio/mpeg">
+        </audio>
+
+        <div class="now-playing">
+            <span class="neon-label">ON THE DECKS:</span>
+            <span class="track-name">AI LOUNGE AFTER DARK</span>
+        </div>
+    </div>
+
+    <div class="vignette"></div>
+    <div class="grain"></div>
+
+    <script src="main.js"></script>
+</body>
+</html>
