@@ -1,0 +1,119 @@
+:root {
+    --purple-haze: #2d004d;
+    --neon-magenta: #ff00ff;
+    --neon-cyan: #00f2ff;
+    --deep-black: #050505;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=JetBrains+Mono:wght@300&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
+
+body {
+    background-color: var(--deep-black);
+    color: #fff;
+    font-family: 'Syncopate', sans-serif;
+    overflow: hidden;
+    height: 100vh;
+}
+
+/* --- THE GATEKEEPER --- */
+#gatekeeper {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: radial-gradient(circle, var(--purple-haze) 0%, var(--deep-black) 100%);
+    cursor: pointer;
+    transition: opacity 1.5s ease;
+}
+
+.glow-circle {
+    width: 200px;
+    height: 200px;
+    border: 2px solid var(--neon-magenta);
+    border-radius: 50%;
+    filter: blur(5px);
+    box-shadow: 0 0 50px var(--neon-magenta);
+    animation: pulse 2s infinite alternate;
+}
+
+.entry-text {
+    margin-top: 40px;
+    letter-spacing: 10px;
+    text-shadow: 0 0 20px var(--neon-cyan);
+}
+
+/* --- THE LYRIC STAGE --- */
+#lyric-stage {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+    pointer-events: none;
+    text-align: center;
+    padding: 0 10%;
+}
+
+#lyric-text {
+    font-size: clamp(2rem, 8vw, 5rem);
+    text-transform: uppercase;
+    line-height: 1.1;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* These classes will be toggled by JS to match the song energy */
+.lyric-neon {
+    color: #fff;
+    text-shadow: 0 0 10px #fff, 0 0 20px var(--neon-magenta), 0 0 40px var(--neon-magenta);
+}
+
+.lyric-glitch {
+    color: var(--neon-cyan);
+    text-shadow: 2px 2px var(--neon-magenta), -2px -2px #fff;
+    animation: glitch 0.1s infinite;
+}
+
+/* --- OVERLAYS --- */
+.vignette {
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(circle, transparent 40%, rgba(0,0,0,0.9) 100%);
+    pointer-events: none;
+    z-index: 20;
+}
+
+.grain {
+    position: fixed;
+    inset: 0;
+    background-image: url('https://upload.wikimedia.org/wikipedia/commons/7/76/1k_Resolution_White_Noise_Video_Frame.png');
+    opacity: 0.03;
+    pointer-events: none;
+    z-index: 21;
+}
+
+/* --- ANIMATIONS --- */
+@keyframes pulse {
+    from { transform: scale(1); opacity: 0.5; }
+    to { transform: scale(1.1); opacity: 1; }
+}
+
+@keyframes glitch {
+    0% { transform: translate(0); }
+    20% { transform: translate(-5px, 5px); }
+    40% { transform: translate(-5px, -5px); }
+    60% { transform: translate(5px, 5px); }
+    80% { transform: translate(5px, -5px); }
+    100% { transform: translate(0); }
+}
+
+#visualizer-canvas {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+}
