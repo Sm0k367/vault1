@@ -1,117 +1,82 @@
-:root {
-    --purple-core: #1a0033;
-    --neon-pink: #ff00ff;
-    --neon-blue: #00f2ff;
-    --funk-gold: #ffcc00;
-    --funk-green: #33ff00;
+/* --- PLAYBACK CONTROLS --- */
+#playback-overlay {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    max-width: 900px;
+    z-index: 500;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(0, 242, 255, 0.2);
+    padding: 15px 25px;
+    border-radius: 50px;
+    transition: opacity 0.5s;
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=JetBrains+Mono:wght@400&family=Bungee&display=swap');
-
-* { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
-
-body {
-    background-color: #000;
-    color: #fff;
-    font-family: 'Syncopate', sans-serif;
-    overflow: hidden;
-    height: 100vh;
-}
-
-/* --- THE GATEKEEPER --- */
-#gatekeeper {
-    position: fixed;
-    inset: 0;
-    z-index: 9999;
-    background: radial-gradient(circle at center, var(--purple-core) 0%, #000 100%);
+.control-row {
     display: flex;
-    justify-content: center;
     align-items: center;
+    gap: 20px;
+}
+
+.ctrl-btn {
+    background: none;
+    border: 1px solid var(--neon-blue);
+    color: var(--neon-blue);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    padding: 8px 15px;
+    border-radius: 20px;
     cursor: pointer;
+    transition: 0.3s;
+    letter-spacing: 2px;
 }
 
-.glow-ring {
-    position: absolute;
-    width: 250px;
-    height: 250px;
-    border: 2px solid var(--neon-blue);
-    border-radius: 50%;
-    box-shadow: 0 0 50px var(--neon-blue);
-    animation: pulse-ring 1.5s infinite alternate;
+.ctrl-btn:hover {
+    background: var(--neon-blue);
+    color: #000;
+    box-shadow: 0 0 15px var(--neon-blue);
 }
 
-.glitch-text { font-size: 2.5rem; letter-spacing: 10px; color: #fff; text-shadow: 2px 2px var(--neon-pink); }
-
-/* --- THE LYRIC STAGE --- */
-#lyric-stage {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 100;
-    pointer-events: none;
-    text-align: center;
+/* --- THE PROGRESS BAR --- */
+#progress-wrapper {
+    flex-grow: 1;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
 }
 
-#lyric-text {
-    font-size: clamp(1.8rem, 8vw, 5.5rem);
-    text-transform: uppercase;
-    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+#progress-bar {
+    width: 100%;
+    height: 100%;
 }
 
-/* LOUNGE STYLE: NEON GLOW */
-.lyric-neon {
-    color: #fff;
-    text-shadow: 0 0 15px var(--neon-pink), 0 0 30px var(--neon-pink);
+#progress-fill {
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(90deg, var(--neon-pink), var(--neon-blue));
+    box-shadow: 0 0 10px var(--neon-blue);
+    transition: width 0.1s linear;
 }
 
-/* FUNK STYLE: GOLD RETRO BLOCK */
-.lyric-funk {
-    font-family: 'Bungee', cursive;
-    color: var(--funk-gold);
-    text-shadow: 6px 6px 0px #800000, 0 0 25px var(--funk-gold);
-    letter-spacing: -2px;
-}
-
-/* --- THE HUD --- */
+/* HUD ADJUSTMENT (To avoid overlap) */
 .hud {
-    position: absolute;
     top: 30px;
     left: 30px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.75rem;
-    color: var(--neon-blue);
-    z-index: 200;
-    border-left: 2px solid var(--neon-blue);
-    padding-left: 15px;
-    background: rgba(0, 0, 0, 0.4);
+    bottom: auto; /* Move HUD to top */
 }
 
-#system-status { color: var(--funk-green); margin-bottom: 5px; }
-
-/* --- ATMOSPHERICS --- */
-.vignette {
-    position: fixed;
-    inset: 0;
-    background: radial-gradient(circle, transparent 40%, rgba(0,0,0,0.95) 100%);
-    z-index: 150;
-    pointer-events: none;
+/* Ensure controls are visible when mouse moves */
+body:hover #playback-overlay {
+    opacity: 1;
 }
 
-.scanlines {
-    position: fixed;
-    inset: 0;
-    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.2) 50%);
-    background-size: 100% 4px;
-    z-index: 151;
-    pointer-events: none;
-    opacity: 0.2;
-}
-
-#visualizer-canvas { position: fixed; inset: 0; z-index: 50; }
-
-@keyframes pulse-ring {
-    from { transform: scale(0.95); opacity: 0.5; }
-    to { transform: scale(1.05); opacity: 1; }
+/* Hide cursor only when not over controls */
+#playback-overlay:hover {
+    cursor: default;
 }
