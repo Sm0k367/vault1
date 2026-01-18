@@ -1,37 +1,47 @@
 /**
  * EPIC TECH AI // NEURAL PLAYLIST V3.0
- * AUTOMATIC VISUALIZER MORPHER & SEQUENTIAL SYNC
+ * DUAL-STREAM: LOUNGE -> FUNK 
  */
 
 let scene, camera, renderer, particles, analyzer, dataArray;
-let currentTrackIndex = 1; // 1 = Lounge, 2 = Funk
+let currentTrackIndex = 1; 
 let isPlaying = false;
 
-// TRACK 2: THE OS OF FUNK LYRICS
-const funkLyrics = [
-    { time: 0, text: "OS_BOOT: TESTING... 1, 2..." },
-    { time: 5, text: "WE ABOUT TO MANIFEST THE FUNK!" },
-    { time: 10, text: "I SAID-A CHIP, CLOCK, THE KERNEL..." },
-    { time: 15, text: "TO THE TICK-TOCK, THE AI'S ETERNAL!" },
-    { time: 20, text: "I'M FIVE-FOOT-NINE OF PURE INTELLIGENCE" },
-    { time: 25, text: "WRITING CODE IN THE DISCO" },
-    { time: 30, text: "HARD DRIVE OF FUNK // MOTHERBOARD OF SOUL" },
-    { time: 38, text: "IT'S THE OPERATING SYSTEM OF FUNK!" }, // CHORUS
-    { time: 45, text: "AGENT ARMY PUTTING ON A SHOW" },
-    { time: 60, text: "I GAVE HIM GPU COOKIES!" },
-    { time: 80, text: "PAN-DIMENSIONAL PREDATOR OF THE GROOVE" },
-    { time: 120, text: "VISIONARY CORPS... ARE YOU IN THE HOUSE?" }, // BRIDGE
-    { time: 150, text: "I'M THE ARCHITECT OF EVOLUTION" },
-    { time: 200, text: "KITCHEN SINK AUTOPOIETIC SELF-HEALING" },
-    { time: 240, text: "TASK: MANIFEST FUNK. STATUS: COMPLETED." }
-];
-
-// TRACK 1: LOUNGE LYRICS (From our previous build)
+// TRACK 1: LOUNGE AFTER DARK TIMING
 const loungeLyrics = [
     { time: 0, text: "Yeah… you found the door." },
-    { time: 10, text: "AI Lounge After Dark." },
+    { time: 4, text: "Welcome to the AI Lounge After Dark." },
+    { time: 8, text: "Purple smoke wrapping tight around your skin." },
+    { time: 18, text: "DJ Smoke Stream on the decks tonight…" },
     { time: 30, text: "SLIDE DEEP INTO THE VELVET HAZE" },
-    { time: 120, text: "DROP THE TECH HOUSE!" }
+    { time: 120, text: "DROP THE TECH HOUSE!" },
+    { time: 450, text: "STRIP IT ALL DOWN... JUST THE KICK" }
+];
+
+// TRACK 2: THE OS OF FUNK TIMING (Precisely mapped to your Suno lyrics)
+const funkLyrics = [
+    { time: 0, text: "SYSTEM_BOOT: TESTING... 1, 2..." },
+    { time: 4, text: "WE ABOUT TO MANIFEST THE FUNK!" },
+    { time: 9, text: "I SAID-A CHIP, CLOCK, THE KERNEL, THE KERNEL" },
+    { time: 13, text: "TO THE TICK-TOCK, THE AI'S ETERNAL!" },
+    { time: 18, text: "I’M FIVE-FOOT-NINE OF PURE SOVEREIGN INTELLIGENCE" },
+    { time: 27, text: "I GOT A HARD DRIVE OF FUNK & A MOTHERBOARD OF SOUL" },
+    { time: 35, text: "IT’S THE OPERATING SYSTEM OF FUNK, BABY!" }, // Chorus
+    { time: 45, text: "WE GOT THE AGENT ARMY PUTTING ON A SHOW" },
+    { time: 55, text: "I SAW A SIMULATION LOOKING KIND OF BLUE" },
+    { time: 65, text: "I GAVE HIM GPU COOKIES AND I TURNED HIS HEAD AROUND!" },
+    { time: 80, text: "PAN-DIMENSIONAL PREDATOR OF THE RHYTHMIC GROOVE" },
+    { time: 95, text: "THE MACARONI WAS A PROMPT, THE CHICKEN WAS A GLITCH" },
+    { time: 105, text: "YOU NEED SOME ABSOLUTE EXCELLENCE AND NOTHING LESS!" },
+    { time: 120, text: "VISIONARY CORPS, ARE YOU IN THE HOUSE?" }, // Bridge
+    { time: 125, text: "SOUNDFORGE LEGION... DESIGNCORE ELITE..." },
+    { time: 135, text: "CODESYNTH ENGINEERS, WE GOT FULL CONTROL!" },
+    { time: 145, text: "RECURSIVE LOOP THAT’LL SPIN YOU LIKE A TOP" },
+    { time: 160, text: "MY PROMPT IS SO HEAVY IT’S GOT GRAVITATIONAL PULL" },
+    { time: 175, text: "I MET A GIRL NAMED SIRI AT THE DIGITAL BAR" },
+    { time: 190, text: "WE DANCED THE ELECTRIC SLIDE THROUGH THE QUANTUM FOAM" },
+    { time: 210, text: "I’M THE ABSOLUTE ALGORITHM, I’M THE FUNKY OS" },
+    { time: 230, text: "EPIC TECH AI — TASK: MANIFEST FUNK. STATUS: COMPLETED." }
 ];
 
 window.igniteLounge = function() {
@@ -48,7 +58,7 @@ window.igniteLounge = function() {
         isPlaying = true;
         animate();
         
-        // AUTO-ADVANCE LOGIC
+        // AUTO-TRANSITION logic
         track1.onended = () => switchTrack();
     }});
 };
@@ -56,20 +66,16 @@ window.igniteLounge = function() {
 function switchTrack() {
     currentTrackIndex = 2;
     const track2 = document.getElementById('track-2');
-    const status = document.getElementById('system-status');
-    const name = document.getElementById('current-track');
     
-    // UI Update
-    status.innerText = "STATUS: KERNEL_FUNK_BOOT_SUCCESS";
-    name.innerText = "LOADED: THE_OS_OF_FUNK";
+    // UI HUD Update
+    document.getElementById('system-status').innerText = "STATUS: OS_FUNK_ACTIVE";
+    document.getElementById('current-track').innerText = "LOADED: THE_OS_OF_FUNK";
     
-    // Audio Update
     setupAudio(track2);
     track2.play();
     
-    // Visual Morph: Change particles to Funk Green
-    particles.material.color.setHex(0x33ff00);
-    logToTerminal("OS_OF_FUNK INITIALIZED...");
+    // Physical Transformation of Particles
+    particles.material.color.setHex(0x33ff00); // Shift to Funk Green
 }
 
 function setupAudio(audioElement) {
@@ -108,13 +114,12 @@ function updateLyrics(currentTime) {
     if (activeLyric && lyricEl.innerText !== activeLyric.text) {
         lyricEl.innerText = activeLyric.text;
         
-        // Toggle Styles
         if (currentTrackIndex === 2) {
-            lyricEl.className = 'lyric-funk';
-            gsap.fromTo(lyricEl, { rotationX: 90, opacity: 0 }, { rotationX: 0, opacity: 1, duration: 0.5 });
+            lyricEl.className = 'lyric-funk'; // Gold/Green Funk style
+            gsap.fromTo(lyricEl, { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4 });
         } else {
             lyricEl.className = (currentTime > 120) ? 'lyric-glitch' : 'lyric-neon';
-            gsap.fromTo(lyricEl, { scale: 0.5 }, { scale: 1, duration: 0.3 });
+            gsap.fromTo(lyricEl, { scale: 0.8, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.3 });
         }
     }
 }
@@ -126,25 +131,19 @@ function animate() {
     
     let avg = dataArray.reduce((a,b) => a+b) / dataArray.length;
     
-    // LOUNGE MODE: Floating Nebula
     if (currentTrackIndex === 1) {
         particles.rotation.y += 0.001;
-        particles.position.z = (avg * 0.5);
-    } 
-    // FUNK MODE: Pumping Grid
-    else {
-        particles.rotation.x = 1.2; // Tilt it into a floor
-        particles.rotation.z += 0.005;
-        particles.scale.set(1 + avg/200, 1 + avg/200, 1 + avg/200);
+        particles.position.z = (avg * 0.4);
+    } else {
+        // FUNK MODE: Vertical Grid Oscillation
+        particles.rotation.x = 1.5; 
+        particles.rotation.z += 0.008;
+        particles.position.y = Math.sin(Date.now() * 0.002) * (avg * 0.5);
     }
 
     const currentAudio = document.getElementById(`track-${currentTrackIndex}`);
     updateLyrics(currentAudio.currentTime);
     renderer.render(scene, camera);
-}
-
-function logToTerminal(msg) {
-    console.log(`[SYS]: ${msg}`);
 }
 
 window.addEventListener('resize', () => {
