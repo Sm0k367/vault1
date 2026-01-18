@@ -1,6 +1,6 @@
 /**
- * EPIC TECH AI // NEURAL VAULT V6.5
- * MASTER STYLESHEET: THE GLASS UI & DUAL TYPOGRAPHY
+ * EPIC TECH AI // NEURAL VAULT V7.0
+ * LAYOUT STABILITY & TEXT VISIBILITY
  */
 
 :root {
@@ -9,7 +9,7 @@
     --neon-blue: #00f2ff;
     --funk-gold: #ffcc00;
     --funk-green: #33ff00;
-    --glass: rgba(0, 0, 0, 0.7);
+    --glass: rgba(0, 0, 0, 0.8);
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=JetBrains+Mono:wght@400&family=Bungee&display=swap');
@@ -19,7 +19,6 @@
     padding: 0; 
     box-sizing: border-box; 
     user-select: none;
-    cursor: crosshair;
 }
 
 body {
@@ -40,22 +39,17 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
 }
 
 .glow-ring {
     position: absolute;
-    width: 280px;
-    height: 280px;
-    border: 3px solid var(--neon-blue);
+    width: 250px;
+    height: 250px;
+    border: 2px solid var(--neon-blue);
     border-radius: 50%;
-    box-shadow: 0 0 60px var(--neon-blue);
+    box-shadow: 0 0 50px var(--neon-blue);
     animation: pulse-ring 1.5s infinite alternate;
-}
-
-.glitch-text { 
-    font-size: 2.5rem; 
-    letter-spacing: 12px; 
-    text-shadow: 3px 3px var(--neon-pink); 
 }
 
 /* --- THE STAGE --- */
@@ -67,84 +61,82 @@ body {
 
 #lyric-stage {
     position: absolute;
-    inset: 0;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 70vh; /* Keeps lyrics in the upper 70% of the screen */
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 100;
     pointer-events: none;
     text-align: center;
-    padding: 0 15%;
+    padding: 0 10%;
 }
 
 #lyric-text {
-    font-size: clamp(1.4rem, 5vw, 4rem);
-    line-height: 1.2;
+    font-size: clamp(1.2rem, 5vw, 3.5rem);
     text-transform: uppercase;
+    transition: transform 0.2s ease;
 }
 
-/* TRACK 1 STYLE */
 .lyric-neon {
     color: #fff;
-    text-shadow: 0 0 20px var(--neon-pink), 0 0 40px var(--neon-pink);
+    text-shadow: 0 0 15px var(--neon-pink), 0 0 30px var(--neon-pink);
 }
 
-/* TRACK 2 & 3 STYLE */
 .lyric-funk {
     font-family: 'Bungee', cursive;
     color: var(--funk-gold);
-    text-shadow: 4px 4px 0px #660000, 0 0 30px var(--funk-gold);
-    letter-spacing: -1px;
+    text-shadow: 4px 4px 0px #800000, 0 0 25px var(--funk-gold);
 }
 
-/* --- THE GLASS CONTROL DECK --- */
+/* --- CONTROLS --- */
 #playback-overlay {
     position: absolute;
-    bottom: 50px;
+    bottom: 40px;
     left: 50%;
     transform: translateX(-50%);
-    width: 85%;
-    max-width: 900px;
+    width: 90%;
+    max-width: 800px;
     z-index: 500;
     background: var(--glass);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    padding: 18px 30px;
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 15px 25px;
     border-radius: 100px;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
 }
 
 .control-row {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 15px;
 }
 
 .ctrl-btn {
-    background: rgba(0, 242, 255, 0.1);
+    background: none;
     border: 1px solid var(--neon-blue);
     color: var(--neon-blue);
     font-family: 'JetBrains Mono';
-    font-size: 0.7rem;
-    padding: 10px 22px;
-    border-radius: 50px;
+    font-size: 0.6rem;
+    padding: 8px 18px;
+    border-radius: 30px;
     cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    letter-spacing: 2px;
+    transition: 0.3s;
+    white-space: nowrap;
 }
 
 .ctrl-btn:hover {
     background: var(--neon-blue);
     color: #000;
-    box-shadow: 0 0 25px var(--neon-blue);
 }
 
 #progress-wrapper {
     flex-grow: 1;
-    height: 8px;
+    height: 6px;
     background: rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
+    border-radius: 3px;
     position: relative;
     cursor: pointer;
     overflow: hidden;
@@ -154,27 +146,26 @@ body {
     width: 0%;
     height: 100%;
     background: linear-gradient(90deg, var(--neon-pink), var(--neon-blue), var(--funk-gold));
-    box-shadow: 0 0 15px var(--neon-blue);
-    transition: width 0.1s linear;
 }
 
-/* --- HUD & FX --- */
+/* --- HUD --- */
 .hud {
     position: absolute;
-    top: 30px;
-    left: 30px;
+    top: 20px;
+    left: 20px;
     z-index: 200;
     font-family: 'JetBrains Mono';
-    font-size: 0.75rem;
-    border-left: 3px solid var(--neon-blue);
-    padding: 5px 15px;
-    background: rgba(0,0,0,0.3);
+    font-size: 0.65rem;
+    padding: 10px;
+    border-left: 2px solid var(--neon-blue);
+    background: rgba(0,0,0,0.5);
 }
 
+/* --- ATMOSPHERICS --- */
 .vignette {
     position: fixed;
     inset: 0;
-    background: radial-gradient(circle, transparent 40%, rgba(0,0,0,0.9) 100%);
+    background: radial-gradient(circle, transparent 40%, rgba(0,0,0,0.8) 100%);
     z-index: 150;
     pointer-events: none;
 }
@@ -182,7 +173,7 @@ body {
 .scanlines {
     position: fixed;
     inset: 0;
-    background: linear-gradient(rgba(18,16,16,0) 50%, rgba(0,0,0,0.2) 50%);
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%);
     background-size: 100% 4px;
     z-index: 151;
     pointer-events: none;
@@ -190,6 +181,6 @@ body {
 }
 
 @keyframes pulse-ring {
-    from { transform: scale(0.96); opacity: 0.5; }
-    to { transform: scale(1.04); opacity: 1; }
+    from { transform: scale(0.95); opacity: 0.5; }
+    to { transform: scale(1.05); opacity: 1; }
 }
