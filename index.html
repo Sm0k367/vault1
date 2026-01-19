@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NEURAL VAULT V9.0 // ABSOLUTE ALGORITHM</title>
+    <title>NEURAL VAULT V10.0</title>
     <link rel="stylesheet" href="style.css">
-    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 </head>
@@ -14,50 +13,31 @@
     <div id="gatekeeper" onclick="igniteLounge()">
         <div class="glow-ring"></div>
         <div class="entry-content">
-            <h1 class="glitch-text" data-text="NEURAL_BOOT">NEURAL_BOOT</h1>
-            <p class="instruction">[ CLICK TO MANIFEST THE FUNK ]</p>
+            <h1>NEURAL_BOOT</h1>
+            <p>[ CLICK TO MANIFEST ]</p>
         </div>
     </div>
 
     <div id="lounge-container" style="display: none;">
         <canvas id="visualizer-canvas"></canvas>
-
         <div id="lyric-stage">
-            <h2 id="lyric-text">SYSTEM INITIALIZING...</h2>
+            <h2 id="lyric-text"></h2>
         </div>
 
         <div id="playback-overlay">
             <div class="control-row">
-                <button id="play-pause-btn" class="ctrl-btn">PAUSE</button>
-                <div id="progress-wrapper">
-                    <div id="progress-bar">
-                        <div id="progress-fill"></div>
-                    </div>
-                </div>
-                <button id="skip-btn" class="ctrl-btn" onclick="switchTrack()">SKIP >></button>
+                <button id="play-pause-btn" class="ctrl-btn">PLAY/PAUSE</button>
+                <div id="progress-wrapper"><div id="progress-fill"></div></div>
+                <button class="ctrl-btn" onclick="switchTrack()">SKIP >></button>
             </div>
         </div>
 
-        <div id="audio-engine" style="display: none;">
-            <audio id="track-1" crossorigin="anonymous">
-                <source src="Lounge%20(1).mp3" type="audio/mpeg">
-            </audio>
-            <audio id="track-2" crossorigin="anonymous">
-                <source src="The%20OS%20of%20Funk.mp3" type="audio/mpeg">
-            </audio>
-            <audio id="track-3" crossorigin="anonymous">
-                <source src="Go%20Hard%20(We%20Funk).mp3" type="audio/mpeg">
-            </audio>
-        </div>
-
-        <div class="hud">
-            <div id="system-status">STATUS: NEURAL_LINK_OK</div>
-            <div id="current-track">STREAM: WAITING...</div>
+        <div style="display: none;">
+            <audio id="track-1" crossorigin="anonymous" src="Lounge%20(1).mp3"></audio>
+            <audio id="track-2" crossorigin="anonymous" src="The%20OS%20of%20Funk.mp3"></audio>
+            <audio id="track-3" crossorigin="anonymous" src="Go%20Hard%20(We%20Funk).mp3"></audio>
         </div>
     </div>
-
-    <div class="vignette"></div>
-    <div class="scanlines"></div>
 
     <script src="main.js"></script>
 </body>
