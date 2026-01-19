@@ -1,9 +1,8 @@
 /**
- * EPIC TECH AI // NEURAL VAULT V10.0
- * FULL CINEMATIC STYLESHEET
+ * EPIC TECH AI // NEURAL VAULT V11.0
+ * HARDENED VISIBILITY & LAYERING
  */
 
-/* Imports for the tech and rap aesthetics */
 @import url('https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=JetBrains+Mono:wght@400&family=Bungee&display=swap');
 
 :root {
@@ -45,28 +44,12 @@ body {
 
 .glow-ring {
     position: absolute;
-    width: 260px;
-    height: 260px;
+    width: 250px;
+    height: 250px;
     border: 2px solid var(--neon-blue);
     border-radius: 50%;
     box-shadow: 0 0 50px var(--neon-blue);
     animation: pulse-ring 1.5s infinite alternate;
-}
-
-#gatekeeper h1 {
-    font-size: 2rem;
-    letter-spacing: 12px;
-    text-shadow: 0 0 10px var(--neon-blue);
-    margin-bottom: 20px;
-    z-index: 2001;
-}
-
-#gatekeeper p {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.8rem;
-    color: var(--neon-pink);
-    z-index: 2001;
-    letter-spacing: 4px;
 }
 
 /* --- THE STAGE --- */
@@ -82,7 +65,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 100;
+    z-index: 100; /* Above particles */
     pointer-events: none;
     text-align: center;
     padding: 0 10%;
@@ -93,6 +76,8 @@ body {
     text-transform: uppercase;
     max-width: 1000px;
     line-height: 1.2;
+    opacity: 1 !important; /* Forces visibility */
+    display: block !important;
 }
 
 /* Track 1 Style */
@@ -106,7 +91,6 @@ body {
     font-family: 'Bungee', cursive;
     color: var(--funk-gold);
     text-shadow: 4px 4px 0px #800000, 0 0 25px var(--funk-gold);
-    letter-spacing: -1px;
 }
 
 /* --- PLAYBACK CONTROLS --- */
@@ -120,7 +104,6 @@ body {
     z-index: 500;
     background: var(--glass);
     backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
     border: 1px solid rgba(255, 255, 255, 0.1);
     padding: 15px 30px;
     border-radius: 100px;
@@ -141,14 +124,6 @@ body {
     padding: 10px 22px;
     border-radius: 50px;
     cursor: pointer;
-    transition: 0.3s;
-    letter-spacing: 1px;
-}
-
-.ctrl-btn:hover {
-    background: var(--neon-blue);
-    color: #000;
-    box-shadow: 0 0 20px var(--neon-blue);
 }
 
 #progress-wrapper {
@@ -156,8 +131,6 @@ body {
     height: 8px;
     background: rgba(255, 255, 255, 0.1);
     border-radius: 4px;
-    position: relative;
-    cursor: pointer;
     overflow: hidden;
 }
 
@@ -165,15 +138,14 @@ body {
     width: 0%;
     height: 100%;
     background: linear-gradient(90deg, var(--neon-pink), var(--neon-blue), var(--funk-gold));
-    box-shadow: 0 0 10px var(--neon-blue);
 }
 
-/* --- FX & OVERLAYS --- */
+/* --- CINEMATIC FX --- */
 .vignette {
     position: fixed;
     inset: 0;
     background: radial-gradient(circle, transparent 30%, rgba(0,0,0,0.9) 100%);
-    z-index: 50;
+    z-index: 150; /* Above lyrics */
     pointer-events: none;
 }
 
@@ -182,12 +154,11 @@ body {
     inset: 0;
     background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%);
     background-size: 100% 4px;
-    z-index: 51;
+    z-index: 151; /* Top layer */
     pointer-events: none;
     opacity: 0.3;
 }
 
-/* --- ANIMATIONS --- */
 @keyframes pulse-ring {
     from { transform: scale(0.95); opacity: 0.4; }
     to { transform: scale(1.05); opacity: 0.9; }
