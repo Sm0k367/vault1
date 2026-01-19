@@ -1,6 +1,6 @@
 /**
- * EPIC TECH AI // NEURAL VAULT V7.0
- * LAYOUT STABILITY & TEXT VISIBILITY
+ * EPIC TECH AI // NEURAL VAULT V8.0
+ * HARDENED UI & TEXT SYNC STYLES
  */
 
 :root {
@@ -9,7 +9,7 @@
     --neon-blue: #00f2ff;
     --funk-gold: #ffcc00;
     --funk-green: #33ff00;
-    --glass: rgba(0, 0, 0, 0.8);
+    --glass: rgba(0, 0, 0, 0.85);
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=JetBrains+Mono:wght@400&family=Bungee&display=swap');
@@ -34,7 +34,7 @@ body {
 #gatekeeper {
     position: fixed;
     inset: 0;
-    z-index: 9999;
+    z-index: 1000;
     background: radial-gradient(circle at center, var(--purple-core) 0%, #000 100%);
     display: flex;
     justify-content: center;
@@ -52,11 +52,19 @@ body {
     animation: pulse-ring 1.5s infinite alternate;
 }
 
+.glitch-text { 
+    font-size: 2.2rem; 
+    letter-spacing: 10px; 
+    text-shadow: 3px 3px var(--neon-pink); 
+}
+
 /* --- THE STAGE --- */
 #visualizer-canvas {
     position: fixed;
-    inset: 0;
-    z-index: 10;
+    top: 0;
+    left: 0;
+    z-index: 10; /* Behind everything */
+    pointer-events: none;
 }
 
 #lyric-stage {
@@ -64,7 +72,7 @@ body {
     top: 0;
     left: 0;
     width: 100%;
-    height: 70vh; /* Keeps lyrics in the upper 70% of the screen */
+    height: 65vh; /* Keep text in upper section */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -75,7 +83,7 @@ body {
 }
 
 #lyric-text {
-    font-size: clamp(1.2rem, 5vw, 3.5rem);
+    font-size: clamp(1.2rem, 5vw, 3.8rem);
     text-transform: uppercase;
     transition: transform 0.2s ease;
 }
@@ -94,7 +102,7 @@ body {
 /* --- CONTROLS --- */
 #playback-overlay {
     position: absolute;
-    bottom: 40px;
+    bottom: 50px;
     left: 50%;
     transform: translateX(-50%);
     width: 90%;
@@ -102,7 +110,6 @@ body {
     z-index: 500;
     background: var(--glass);
     backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
     border: 1px solid rgba(255, 255, 255, 0.1);
     padding: 15px 25px;
     border-radius: 100px;
@@ -119,12 +126,11 @@ body {
     border: 1px solid var(--neon-blue);
     color: var(--neon-blue);
     font-family: 'JetBrains Mono';
-    font-size: 0.6rem;
-    padding: 8px 18px;
+    font-size: 0.7rem;
+    padding: 10px 20px;
     border-radius: 30px;
     cursor: pointer;
     transition: 0.3s;
-    white-space: nowrap;
 }
 
 .ctrl-btn:hover {
@@ -134,9 +140,9 @@ body {
 
 #progress-wrapper {
     flex-grow: 1;
-    height: 6px;
+    height: 8px;
     background: rgba(255, 255, 255, 0.1);
-    border-radius: 3px;
+    border-radius: 4px;
     position: relative;
     cursor: pointer;
     overflow: hidden;
@@ -146,27 +152,28 @@ body {
     width: 0%;
     height: 100%;
     background: linear-gradient(90deg, var(--neon-pink), var(--neon-blue), var(--funk-gold));
+    transition: width 0.1s linear;
 }
 
 /* --- HUD --- */
 .hud {
     position: absolute;
-    top: 20px;
-    left: 20px;
+    top: 25px;
+    left: 25px;
     z-index: 200;
     font-family: 'JetBrains Mono';
-    font-size: 0.65rem;
-    padding: 10px;
-    border-left: 2px solid var(--neon-blue);
-    background: rgba(0,0,0,0.5);
+    font-size: 0.7rem;
+    padding: 8px 15px;
+    border-left: 3px solid var(--neon-blue);
+    background: rgba(0,0,0,0.6);
 }
 
 /* --- ATMOSPHERICS --- */
 .vignette {
     position: fixed;
     inset: 0;
-    background: radial-gradient(circle, transparent 40%, rgba(0,0,0,0.8) 100%);
-    z-index: 150;
+    background: radial-gradient(circle, transparent 30%, rgba(0,0,0,0.9) 100%);
+    z-index: 50;
     pointer-events: none;
 }
 
@@ -175,12 +182,12 @@ body {
     inset: 0;
     background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%);
     background-size: 100% 4px;
-    z-index: 151;
+    z-index: 51;
     pointer-events: none;
-    opacity: 0.3;
+    opacity: 0.4;
 }
 
 @keyframes pulse-ring {
-    from { transform: scale(0.95); opacity: 0.5; }
-    to { transform: scale(1.05); opacity: 1; }
+    from { transform: scale(0.95); opacity: 0.4; }
+    to { transform: scale(1.05); opacity: 0.8; }
 }
