@@ -1,17 +1,18 @@
 /**
- * EPIC TECH AI // NEURAL VAULT V9.0
- * HARDENED STACKING & TEXT VISIBILITY
+ * EPIC TECH AI // NEURAL VAULT V10.0
+ * FULL CINEMATIC STYLESHEET
  */
+
+/* Imports for the tech and rap aesthetics */
+@import url('https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=JetBrains+Mono:wght@400&family=Bungee&display=swap');
 
 :root {
     --purple-core: #1a0033;
     --neon-pink: #ff00ff;
     --neon-blue: #00f2ff;
     --funk-gold: #ffcc00;
-    --glass: rgba(0, 0, 0, 0.8);
+    --glass: rgba(0, 0, 0, 0.85);
 }
-
-@import url('https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=JetBrains+Mono:wght@400&family=Bungee&display=swap');
 
 * { 
     margin: 0; 
@@ -29,13 +30,14 @@ body {
     width: 100vw;
 }
 
-/* --- THE GATEKEEPER (ENTRY) --- */
+/* --- THE ENTRY GATE --- */
 #gatekeeper {
     position: fixed;
     inset: 0;
     z-index: 2000;
     background: radial-gradient(circle at center, var(--purple-core) 0%, #000 100%);
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     cursor: pointer;
@@ -43,31 +45,37 @@ body {
 
 .glow-ring {
     position: absolute;
-    width: 200px;
-    height: 200px;
+    width: 260px;
+    height: 260px;
     border: 2px solid var(--neon-blue);
     border-radius: 50%;
-    box-shadow: 0 0 40px var(--neon-blue);
+    box-shadow: 0 0 50px var(--neon-blue);
     animation: pulse-ring 1.5s infinite alternate;
 }
 
-.glitch-text { 
-    font-size: 1.8rem; 
-    letter-spacing: 8px; 
-    text-shadow: 2px 2px var(--neon-pink); 
+#gatekeeper h1 {
+    font-size: 2rem;
+    letter-spacing: 12px;
+    text-shadow: 0 0 10px var(--neon-blue);
+    margin-bottom: 20px;
+    z-index: 2001;
 }
 
-/* --- THE VISUALIZER CANVAS --- */
+#gatekeeper p {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--neon-pink);
+    z-index: 2001;
+    letter-spacing: 4px;
+}
+
+/* --- THE STAGE --- */
 #visualizer-canvas {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    inset: 0;
     z-index: 10;
 }
 
-/* --- THE LYRIC STAGE (CENTERED OVER CANVAS) --- */
 #lyric-stage {
     position: fixed;
     inset: 0;
@@ -81,16 +89,19 @@ body {
 }
 
 #lyric-text {
-    font-size: clamp(1rem, 6vw, 3.5rem);
+    font-size: clamp(1.2rem, 5vw, 3.5rem);
     text-transform: uppercase;
-    max-width: 900px;
+    max-width: 1000px;
+    line-height: 1.2;
 }
 
+/* Track 1 Style */
 .lyric-neon {
     color: #fff;
     text-shadow: 0 0 15px var(--neon-pink), 0 0 30px var(--neon-pink);
 }
 
+/* Track 2 & 3 Style */
 .lyric-funk {
     font-family: 'Bungee', cursive;
     color: var(--funk-gold);
@@ -98,7 +109,7 @@ body {
     letter-spacing: -1px;
 }
 
-/* --- CONTROL DECK --- */
+/* --- PLAYBACK CONTROLS --- */
 #playback-overlay {
     position: fixed;
     bottom: 40px;
@@ -108,35 +119,45 @@ body {
     max-width: 800px;
     z-index: 500;
     background: var(--glass);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
     border: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 15px 25px;
-    border-radius: 50px;
+    padding: 15px 30px;
+    border-radius: 100px;
 }
 
 .control-row {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 20px;
 }
 
 .ctrl-btn {
-    background: rgba(0, 242, 255, 0.1);
+    background: none;
     border: 1px solid var(--neon-blue);
     color: var(--neon-blue);
-    font-family: 'JetBrains Mono';
-    font-size: 0.65rem;
-    padding: 8px 18px;
-    border-radius: 20px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    padding: 10px 22px;
+    border-radius: 50px;
     cursor: pointer;
+    transition: 0.3s;
+    letter-spacing: 1px;
+}
+
+.ctrl-btn:hover {
+    background: var(--neon-blue);
+    color: #000;
+    box-shadow: 0 0 20px var(--neon-blue);
 }
 
 #progress-wrapper {
     flex-grow: 1;
-    height: 6px;
+    height: 8px;
     background: rgba(255, 255, 255, 0.1);
-    border-radius: 3px;
+    border-radius: 4px;
+    position: relative;
+    cursor: pointer;
     overflow: hidden;
 }
 
@@ -144,29 +165,29 @@ body {
     width: 0%;
     height: 100%;
     background: linear-gradient(90deg, var(--neon-pink), var(--neon-blue), var(--funk-gold));
+    box-shadow: 0 0 10px var(--neon-blue);
 }
 
-/* --- HUD --- */
-.hud {
-    position: fixed;
-    top: 20px;
-    left: 20px;
-    z-index: 300;
-    font-family: 'JetBrains Mono';
-    font-size: 0.6rem;
-    border-left: 2px solid var(--neon-blue);
-    padding-left: 10px;
-}
-
-/* --- FX LAYERS --- */
+/* --- FX & OVERLAYS --- */
 .vignette {
     position: fixed;
     inset: 0;
-    background: radial-gradient(circle, transparent 40%, rgba(0,0,0,0.8) 100%);
-    z-index: 40;
+    background: radial-gradient(circle, transparent 30%, rgba(0,0,0,0.9) 100%);
+    z-index: 50;
     pointer-events: none;
 }
 
+.scanlines {
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%);
+    background-size: 100% 4px;
+    z-index: 51;
+    pointer-events: none;
+    opacity: 0.3;
+}
+
+/* --- ANIMATIONS --- */
 @keyframes pulse-ring {
     from { transform: scale(0.95); opacity: 0.4; }
     to { transform: scale(1.05); opacity: 0.9; }
