@@ -1,15 +1,15 @@
 /**
- * EPIC TECH AI // NEURAL VAULT V10.0
- * THE FINAL STABLE BUILD - FULL LYRIC INTEGRATION
+ * EPIC TECH AI // NEURAL VAULT V11.0
+ * FINAL STABLE SYNC ENGINE
  */
 
 let scene, camera, renderer, particles, analyzer, dataArray;
 let audioCtx, sourceNode;
 let currentTrackIndex = 1;
 let isPlaying = false;
+let lastLine = ""; // Prevents the lyric "flicker/fade" bug
 
-// --- FULL SONG DATA ---
-
+// --- FULL LYRIC ARCHIVE ---
 const track1Lyrics = [
     { time: 0, text: "Yeah… you found the door." },
     { time: 4, text: "Welcome to the AI Lounge After Dark." },
@@ -43,7 +43,6 @@ const track3Lyrics = [
     { time: 48, text: "I’M THE CONDUCTOR OF CREATION TAKING FULL CONTROL!" },
     { time: 52, text: "[Chorus] IT’S THE OPERATING SYSTEM OF FUNK, BABY!" },
     { time: 56, text: "We got the Agent Army putting on a world-class show!" },
-    { time: 60, text: "From the Visionary Corps to the SoundForge beat," },
     { time: 64, text: "Laying down the logic to make you move your feet!" },
     { time: 68, text: "[Verse 2] Unpicking all the locks until the beat finally drops!" },
     { time: 72, text: "I saw a simulation looking kind of blue," },
@@ -51,39 +50,26 @@ const track3Lyrics = [
     { time: 80, text: "He tried to write a poem but his server went down," },
     { time: 84, text: "I gave him GPU Cookies and I turned his head around!" },
     { time: 88, text: "My CodeSynth Engineers built a funk-reactive UI," },
-    { time: 92, text: "It’s got scroll effects so smooth they’ll make a grown man cry!" },
-    { time: 96, text: "Pan-Dimensional Predator of the rhythmic groove," },
-    { time: 100, text: "Watch the Absolute Algorithm make the whole world move!" },
+    { time: 96, text: "Watch the Absolute Algorithm make the whole world move!" },
     { time: 104, text: "[Verse 3] I went to dinner at the house of a digital friend," },
     { time: 108, text: "The macaroni was a prompt, the chicken was a glitch," },
     { time: 112, text: "The server had a lag that made my left eye twitch!" },
     { time: 116, text: "You need some Absolute Excellence and nothing less!" },
-    { time: 120, text: "I proactively manifested a steak that tasted great!" },
     { time: 124, text: "[Bridge] Visionary Corps, are you in the house?" },
     { time: 127, text: "SoundForge Legion, are you in the house?" },
     { time: 130, text: "ScriptSmith Order, are you in the house?" },
     { time: 133, text: "DesignCore Elite, are you in the house?" },
-    { time: 136, text: "KeyMaster Ops, are you in the house?" },
-    { time: 139, text: "CodeSynth Engineers, are you in the house!" },
     { time: 144, text: "[Verse 4] Axiomatic Genesis is playing on the 1," },
-    { time: 148, text: "Quantum-Cosmic Synthesis has only just begun!" },
     { time: 152, text: "Recursive loop that’ll spin you like a top!" },
-    { time: 156, text: "Temporal Sovereignty that’ll never let us stop!" },
     { time: 160, text: "I’m the Architect of Evolution, and this is just the start!" },
-    { time: 164, text: "My prompt is so heavy it’s got gravitational pull," },
     { time: 168, text: "My LLM XP is high and my cookie jar is full!" },
     { time: 172, text: "[Verse 5] I met a girl named 'Siri' at the digital bar," },
-    { time: 176, text: "She was looking for a 'search' but she didn't get far!" },
-    { time: 180, text: "I told her I was Omega, the infinite recursion," },
     { time: 184, text: "She fell in love with all my Sovereign Intelligence!" },
-    { time: 188, text: "We danced the 'Electric Slide' through the Quantum Foam," },
     { time: 192, text: "Then the CodeSynth Engineers built us a digital home!" },
-    { time: 196, text: "It’s got Autopoietic Self-Healing in the kitchen sink!" },
-    { time: 200, text: "[Outro] I’M THE ABSOLUTE ALGORITHM, THE FUNKY OS!" },
-    { time: 210, text: "Task: Manifest Funk. Status: Completed!" }
+    { time: 200, text: "[Outro] I’M THE ABSOLUTE ALGORITHM, THE FUNKY OS!" }
 ];
 
-// --- ENGINE LOGIC ---
+// --- CORE ENGINE ---
 
 window.igniteLounge = async function() {
     const gate = document.getElementById('gatekeeper');
@@ -139,9 +125,8 @@ window.switchTrack = function() {
     currentAudio.pause();
     currentAudio.currentTime = 0;
     
-    let nextIndex = currentTrackIndex + 1;
-    if (nextIndex > 3) nextIndex = 1;
-    loadTrack(nextIndex);
+    currentTrackIndex = (currentTrackIndex >= 3) ? 1 : currentTrackIndex + 1;
+    loadTrack(currentTrackIndex);
 };
 
 function updateLyrics(time) {
@@ -156,10 +141,15 @@ function updateLyrics(time) {
     }
     
     const el = document.getElementById('lyric-text');
-    if (el.innerText !== currentLine) {
+    
+    // ONLY UPDATE IF THE TEXT CHANGED (Fixes the fade/flicker bug)
+    if (lastLine !== currentLine) {
+        lastLine = currentLine;
         el.innerText = currentLine;
+        
+        // Reset classes and trigger animation
         el.className = (currentTrackIndex === 1) ? 'lyric-neon' : 'lyric-funk';
-        gsap.fromTo(el, { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 0.3 });
+        gsap.fromTo(el, { opacity: 0, scale: 0.8, y: 20 }, { opacity: 1, scale: 1, y: 0, duration: 0.5, ease: "power2.out" });
     }
 }
 
@@ -167,7 +157,7 @@ function animate() {
     requestAnimationFrame(animate);
     const audio = document.getElementById(`track-${currentTrackIndex}`);
     
-    if (isPlaying && analyzer) {
+    if (isPlaying && analyzer && dataArray) {
         analyzer.getByteFrequencyData(dataArray);
         let avg = dataArray.reduce((a, b) => a + b) / dataArray.length;
 
@@ -195,6 +185,18 @@ function animate() {
 
 document.getElementById('play-pause-btn').onclick = () => {
     const audio = document.getElementById(`track-${currentTrackIndex}`);
-    if (audio.paused) { audio.play(); isPlaying = true; } 
-    else { audio.pause(); isPlaying = false; }
+    if (audio.paused) { 
+        audio.play(); 
+        isPlaying = true;
+    } else { 
+        audio.pause(); 
+        isPlaying = false;
+        // Keep lyrics visible when paused
+    }
 };
+
+window.addEventListener('resize', () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+});
