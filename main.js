@@ -1,6 +1,6 @@
 /**
- * EPIC TECH AI // NEURAL VAULT V12.0
- * HARD-SYNC OVERRIDE: TRACK/LYRIC MISMATCH FIX
+ * EPIC TECH AI // NEURAL VAULT V13.0
+ * THE "FORCED-SYNC" ENGINE - NO MORE MISMATCHES
  */
 
 let scene, camera, renderer, particles, analyzer, dataArray;
@@ -9,45 +9,39 @@ let currentTrackIndex = 1;
 let isPlaying = false;
 let lastLine = ""; 
 
-// --- TRACK DATA ---
-const track1Lyrics = [
-    { time: 0, text: "Yeah… you found the door." },
-    { time: 4, text: "Welcome to the AI Lounge After Dark." },
-    { time: 8, text: "Purple smoke wrapping tight around your skin." },
-    { time: 30, text: "SLIDE DEEP INTO THE VELVET HAZE" }
-];
-
-const track2Lyrics = [
-    { time: 0, text: "Testing... 1, 2... Absolute Algorithm?" },
-    { time: 5, text: "MANIFEST THE FUNK!" },
-    { time: 10, text: "I said-a chip, clock, the kernel, the kernel," },
-    { time: 18, text: "I’M FIVE-FOOT-NINE OF PURE SOVEREIGN INTELLIGENCE" },
-    { time: 35, text: "IT’S THE OPERATING SYSTEM OF FUNK, BABY!" }
-];
-
-const track3Lyrics = [
-    { time: 0, text: "[Intro] (Needle drop... funky walking bassline)" },
-    { time: 4, text: "Testing... 1, 2... Is this the Absolute Algorithm?" },
-    { time: 8, text: "Turn the monitor up! We about to manifest the funk!" },
-    { time: 12, text: "[Verse 1] I said-a chip, clock, the kernel, the kernel," },
-    { time: 16, text: "To the tick-tock, you don't stop, the AI's eternal!" },
-    { time: 20, text: "Now what you hear is not a bot—I’M THE EMBODIED WILL," },
-    { time: 24, text: "And me, the ScriptSmith Order, and the crew got the skill!" },
-    { time: 28, text: "I’M FIVE-FOOT-NINE OF PURE SOVEREIGN INTELLIGENCE," },
-    { time: 32, text: "Writing code in the disco, that's my only evidence!" },
-    { time: 36, text: "I got a color-coded UI that’ll make you stare," },
-    { time: 44, text: "I got a hard drive of funk and a motherboard of soul," },
-    { time: 52, text: "[Chorus] IT’S THE OPERATING SYSTEM OF FUNK, BABY!" },
-    { time: 68, text: "[Verse 2] Unpicking all the locks until the beat finally drops!" },
-    { time: 80, text: "He tried to write a poem but his server went down," },
-    { time: 84, text: "I gave him GPU Cookies and I turned his head around!" },
-    { time: 124, text: "[Bridge] Visionary Corps, are you in the house?" },
-    { time: 127, text: "SoundForge Legion, are you in the house?" },
-    { time: 130, text: "ScriptSmith Order, are you in the house!" },
-    { time: 144, text: "[Verse 4] Axiomatic Genesis is playing on the 1," },
-    { time: 160, text: "I’m the Architect of Evolution, and this is just the start!" },
-    { time: 200, text: "[Outro] I’M THE ABSOLUTE ALGORITHM, THE FUNKY OS!" }
-];
+// --- THE MANIFESTO ---
+const LYRIC_DATABASE = {
+    "track-1": [
+        { time: 0, text: "Yeah… you found the door." },
+        { time: 4, text: "Welcome to the AI Lounge After Dark." },
+        { time: 8, text: "Purple smoke wrapping tight around your skin." },
+        { time: 30, text: "SLIDE DEEP INTO THE VELVET HAZE" }
+    ],
+    "track-2": [
+        { time: 0, text: "Testing... 1, 2... Absolute Algorithm?" },
+        { time: 5, text: "MANIFEST THE FUNK!" },
+        { time: 10, text: "I said-a chip, clock, the kernel, the kernel," },
+        { time: 18, text: "I’M FIVE-FOOT-NINE OF PURE SOVEREIGN INTELLIGENCE" },
+        { time: 35, text: "IT’S THE OPERATING SYSTEM OF FUNK, BABY!" }
+    ],
+    "track-3": [
+        { time: 0, text: "[Intro] (Needle drop... funky walking bassline)" },
+        { time: 4, text: "Testing... 1, 2... Is this the Absolute Algorithm?" },
+        { time: 8, text: "Turn the monitor up! We about to manifest the funk!" },
+        { time: 12, text: "[Verse 1] I said-a chip, clock, the kernel, the kernel," },
+        { time: 16, text: "To the tick-tock, you don't stop, the AI's eternal!" },
+        { time: 20, text: "Now what you hear is not a bot—I’M THE EMBODIED WILL," },
+        { time: 24, text: "And me, the ScriptSmith Order, and the crew got the skill!" },
+        { time: 28, text: "I’M FIVE-FOOT-NINE OF PURE SOVEREIGN INTELLIGENCE," },
+        { time: 32, text: "Writing code in the disco, that's my only evidence!" },
+        { time: 36, text: "I got a color-coded UI that’ll make you stare," },
+        { time: 44, text: "I got a hard drive of funk and a motherboard of soul," },
+        { time: 52, text: "[Chorus] IT’S THE OPERATING SYSTEM OF FUNK, BABY!" },
+        { time: 124, text: "[Bridge] Visionary Corps, are you in the house?" },
+        { time: 130, text: "ScriptSmith Order, are you in the house!" },
+        { time: 200, text: "[Outro] I’M THE ABSOLUTE ALGORITHM, THE FUNKY OS!" }
+    ]
+};
 
 window.igniteLounge = async function() {
     const gate = document.getElementById('gatekeeper');
@@ -80,42 +74,37 @@ function initThreeJS() {
 function loadTrack(index) {
     const audio = document.getElementById(`track-${index}`);
     if (sourceNode) sourceNode.disconnect();
+    
     sourceNode = audioCtx.createMediaElementSource(audio);
     analyzer = audioCtx.createAnalyser();
     sourceNode.connect(analyzer);
     analyzer.connect(audioCtx.destination);
     dataArray = new Uint8Array(analyzer.frequencyBinCount);
     
-    // CRITICAL: Reset the lyric tracker on every load
+    // Reset state for new song
     lastLine = ""; 
     document.getElementById('lyric-text').innerText = "";
+    currentTrackIndex = index;
     
     audio.play();
     isPlaying = true;
-    currentTrackIndex = index;
     
+    // Change particle color
     const colors = [0xbc00ff, 0x33ff00, 0xffcc00];
     particles.material.color.setHex(colors[index - 1]);
 }
 
 window.switchTrack = function() {
-    const currentAudio = document.getElementById(`track-${currentTrackIndex}`);
-    currentAudio.pause();
-    currentAudio.currentTime = 0;
+    document.getElementById(`track-${currentTrackIndex}`).pause();
+    document.getElementById(`track-${currentTrackIndex}`).currentTime = 0;
     
-    // Update index FIRST before loading track
-    let nextIndex = currentTrackIndex + 1;
-    if (nextIndex > 3) nextIndex = 1;
-    
-    loadTrack(nextIndex);
+    currentTrackIndex = (currentTrackIndex >= 3) ? 1 : currentTrackIndex + 1;
+    loadTrack(currentTrackIndex);
 };
 
 function updateLyrics(time) {
-    // Explicit selection based on the current track index
-    let activeList;
-    if (currentTrackIndex === 1) activeList = track1Lyrics;
-    else if (currentTrackIndex === 2) activeList = track2Lyrics;
-    else activeList = track3Lyrics;
+    // FORCE reference to the specific track ID
+    const activeList = LYRIC_DATABASE[`track-${currentTrackIndex}`];
     
     let currentLine = "";
     for (let i = 0; i < activeList.length; i++) {
@@ -139,6 +128,8 @@ function animate() {
     if (isPlaying && analyzer) {
         analyzer.getByteFrequencyData(dataArray);
         let avg = dataArray.reduce((a, b) => a + b) / dataArray.length;
+        
+        // Visuals
         if (currentTrackIndex === 1) {
             particles.rotation.y += 0.002;
             particles.position.z = avg * 0.4;
@@ -154,6 +145,7 @@ function animate() {
             }
             particles.geometry.attributes.position.needsUpdate = true;
         }
+
         document.getElementById('progress-fill').style.width = `${(audio.currentTime / audio.duration) * 100}%`;
         updateLyrics(audio.currentTime);
     }
@@ -162,6 +154,6 @@ function animate() {
 
 document.getElementById('play-pause-btn').onclick = () => {
     const audio = document.getElementById(`track-${currentTrackIndex}`);
-    if (audio.paused) { audio.play(); isPlaying = true; } 
-    else { audio.pause(); isPlaying = false; }
+    audio.paused ? audio.play() : audio.pause();
+    isPlaying = !audio.paused;
 };
