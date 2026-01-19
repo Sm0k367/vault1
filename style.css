@@ -1,6 +1,6 @@
 /**
- * EPIC TECH AI // NEURAL VAULT V8.0
- * HARDENED UI & TEXT SYNC STYLES
+ * EPIC TECH AI // NEURAL VAULT V9.0
+ * HARDENED STACKING & TEXT VISIBILITY
  */
 
 :root {
@@ -8,8 +8,7 @@
     --neon-pink: #ff00ff;
     --neon-blue: #00f2ff;
     --funk-gold: #ffcc00;
-    --funk-green: #33ff00;
-    --glass: rgba(0, 0, 0, 0.85);
+    --glass: rgba(0, 0, 0, 0.8);
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=JetBrains+Mono:wght@400&family=Bungee&display=swap');
@@ -30,11 +29,11 @@ body {
     width: 100vw;
 }
 
-/* --- THE GATEKEEPER --- */
+/* --- THE GATEKEEPER (ENTRY) --- */
 #gatekeeper {
     position: fixed;
     inset: 0;
-    z-index: 1000;
+    z-index: 2000;
     background: radial-gradient(circle at center, var(--purple-core) 0%, #000 100%);
     display: flex;
     justify-content: center;
@@ -44,35 +43,34 @@ body {
 
 .glow-ring {
     position: absolute;
-    width: 250px;
-    height: 250px;
+    width: 200px;
+    height: 200px;
     border: 2px solid var(--neon-blue);
     border-radius: 50%;
-    box-shadow: 0 0 50px var(--neon-blue);
+    box-shadow: 0 0 40px var(--neon-blue);
     animation: pulse-ring 1.5s infinite alternate;
 }
 
 .glitch-text { 
-    font-size: 2.2rem; 
-    letter-spacing: 10px; 
-    text-shadow: 3px 3px var(--neon-pink); 
+    font-size: 1.8rem; 
+    letter-spacing: 8px; 
+    text-shadow: 2px 2px var(--neon-pink); 
 }
 
-/* --- THE STAGE --- */
+/* --- THE VISUALIZER CANVAS --- */
 #visualizer-canvas {
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 10; /* Behind everything */
-    pointer-events: none;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
 }
 
+/* --- THE LYRIC STAGE (CENTERED OVER CANVAS) --- */
 #lyric-stage {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 65vh; /* Keep text in upper section */
+    position: fixed;
+    inset: 0;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -83,9 +81,9 @@ body {
 }
 
 #lyric-text {
-    font-size: clamp(1.2rem, 5vw, 3.8rem);
+    font-size: clamp(1rem, 6vw, 3.5rem);
     text-transform: uppercase;
-    transition: transform 0.2s ease;
+    max-width: 900px;
 }
 
 .lyric-neon {
@@ -97,22 +95,24 @@ body {
     font-family: 'Bungee', cursive;
     color: var(--funk-gold);
     text-shadow: 4px 4px 0px #800000, 0 0 25px var(--funk-gold);
+    letter-spacing: -1px;
 }
 
-/* --- CONTROLS --- */
+/* --- CONTROL DECK --- */
 #playback-overlay {
-    position: absolute;
-    bottom: 50px;
+    position: fixed;
+    bottom: 40px;
     left: 50%;
     transform: translateX(-50%);
     width: 90%;
     max-width: 800px;
     z-index: 500;
     background: var(--glass);
-    backdrop-filter: blur(15px);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.1);
     padding: 15px 25px;
-    border-radius: 100px;
+    border-radius: 50px;
 }
 
 .control-row {
@@ -122,29 +122,21 @@ body {
 }
 
 .ctrl-btn {
-    background: none;
+    background: rgba(0, 242, 255, 0.1);
     border: 1px solid var(--neon-blue);
     color: var(--neon-blue);
     font-family: 'JetBrains Mono';
-    font-size: 0.7rem;
-    padding: 10px 20px;
-    border-radius: 30px;
+    font-size: 0.65rem;
+    padding: 8px 18px;
+    border-radius: 20px;
     cursor: pointer;
-    transition: 0.3s;
-}
-
-.ctrl-btn:hover {
-    background: var(--neon-blue);
-    color: #000;
 }
 
 #progress-wrapper {
     flex-grow: 1;
-    height: 8px;
+    height: 6px;
     background: rgba(255, 255, 255, 0.1);
-    border-radius: 4px;
-    position: relative;
-    cursor: pointer;
+    border-radius: 3px;
     overflow: hidden;
 }
 
@@ -152,42 +144,30 @@ body {
     width: 0%;
     height: 100%;
     background: linear-gradient(90deg, var(--neon-pink), var(--neon-blue), var(--funk-gold));
-    transition: width 0.1s linear;
 }
 
 /* --- HUD --- */
 .hud {
-    position: absolute;
-    top: 25px;
-    left: 25px;
-    z-index: 200;
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 300;
     font-family: 'JetBrains Mono';
-    font-size: 0.7rem;
-    padding: 8px 15px;
-    border-left: 3px solid var(--neon-blue);
-    background: rgba(0,0,0,0.6);
+    font-size: 0.6rem;
+    border-left: 2px solid var(--neon-blue);
+    padding-left: 10px;
 }
 
-/* --- ATMOSPHERICS --- */
+/* --- FX LAYERS --- */
 .vignette {
     position: fixed;
     inset: 0;
-    background: radial-gradient(circle, transparent 30%, rgba(0,0,0,0.9) 100%);
-    z-index: 50;
+    background: radial-gradient(circle, transparent 40%, rgba(0,0,0,0.8) 100%);
+    z-index: 40;
     pointer-events: none;
-}
-
-.scanlines {
-    position: fixed;
-    inset: 0;
-    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%);
-    background-size: 100% 4px;
-    z-index: 51;
-    pointer-events: none;
-    opacity: 0.4;
 }
 
 @keyframes pulse-ring {
     from { transform: scale(0.95); opacity: 0.4; }
-    to { transform: scale(1.05); opacity: 0.8; }
+    to { transform: scale(1.05); opacity: 0.9; }
 }
